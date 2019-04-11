@@ -32,12 +32,10 @@ export default class FlowMaker extends React.Component {
   }
 
   afterMount() {
-    if (typeof this.props.onChange == 'function') {
+    if (typeof this.props.onChange == 'function')
       this.Tree.setExportFunc(this.props.onChange)
-    }
-    if (typeof this.props.flow == 'object') {
+    if (typeof this.props.flow == 'object')
       this.Tree.import(this.props.flow)
-    }
   }
 
   render() {
