@@ -89,7 +89,7 @@ export default class Input extends React.Component {
 
     return (
       <div className={`input hasErr${error ? 'True' : 'False'}`}>
-        <div className="label">{input.title}<ToolTip transparrent={true} tip={input.tooltip}/></div>
+        <div className="label"><span>{input.title}</span><ToolTip transparrent={true} tip={input.tooltip}/></div>
         <div className="actualInput">
           {(input.type == 'text' || input.type == 'number')?
             <div className="text">
