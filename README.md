@@ -7,7 +7,7 @@ This component makes it easy to create flows.
 See [./example](./example)
 
 ## How to use
-**NOTE:** This requires transpiling of stylus files
+**NOTE:** This requires transpiling of stylus files *[rollup](https://github.com/mtojo/rollup-plugin-stylus-css-modules) [webpack](https://github.com/shama/stylus-loader)*.  
 ```jsx
 import FlowMaker from '../flowmaker'
 // ...
