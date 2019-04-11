@@ -1,0 +1,11 @@
+{
+  "name": "flowmaker",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "js-sha1": "^0.6.0",
+    "react": "^16.8.6",
+    "stylus": "^0.54.5"
+  }
+}

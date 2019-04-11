@@ -1,0 +1,322 @@
+.flowMakerComp
+  font-size 18px
+  font-weight normal
+  font-family sans-serif
+  overflow scroll
+  max-width 100%
+  max-height 100%
+  min-width 100%
+  min-height 100%
+  *
+    border 0px
+    margin 0px
+    padding 0px
+
+  .flowMakerContainer
+    display flex
+    flex-wrap nowrap
+
+  .input
+    padding-bottom 15px
+    .label
+      max-height 17px
+      font-size 16px
+      position relative
+      top 1px
+      left 4px
+      color rgba(70,70,70,1)
+      font-weight bold
+    .actualInput
+      .text
+        input
+          border-top-left-radius 5px
+          border-top-right-radius 5px
+          background-color rgba(0,0,0,0)
+          font-size 18px
+          padding 5px
+          border-bottom 2px solid black
+          width 100%
+          box-sizing border-box
+      .switch
+        *
+          cursor pointer
+        .actualSwitch
+          width 24px
+          height 24px
+          background-color rgba(255,255,255,1)
+          margin-top 7px
+          border-radius 6px
+          border 2px solid black
+          display flex
+          justify-content center
+          align-items center
+          transition background-color 0.2s
+          .inside
+            position relative
+            top 3px
+            opacity 1
+            transition opacity 0.2s
+          &.false
+            background-color rgba(255,255,255,0.3)
+            .inside
+              opacity 0.1
+      .dropdown
+        max-height 30px
+        .select
+          display flex
+          justify-content space-between
+          align-items center
+          flex-wrap nowrap
+          border-bottom 2px solid black
+          cursor pointer
+        .options
+          display block
+          position relative
+          z-index 19
+          background-color white
+          border-radius 8px
+          top -5px
+          box-shadow 0px 2px 20px -5px rgba(0,0,0,0.4)
+          transform translate(0px, 5px)
+          opacity 0
+          pointer-events none
+          transition transform 0.2s, opacity 0.2s
+          &.openTrue
+            transform translate(0px, 0px)
+            opacity 1
+            pointer-events auto
+          .option
+            padding 10px
+            display flex
+            justify-content space-between
+            align-items center
+            flex-wrap nowrap
+            background-color white
+            border-radius 8px
+            cursor pointer
+            transition background-color 0.1s
+            &:hover
+              background-color #eee
+            .optTooltip
+              width 26px
+              height 26px
+              .noWidth
+                max-width 0px
+                .fullwidth
+                  transform translate(0px, 5px)
+                  opacity 0
+                  pointer-events none
+                  transition transform 0.2s, opacity 0.2s
+                  width 300px
+                  position relative
+                  right 315px
+                  top -30px
+                  background-color #302118
+                  border-radius 6px
+                  padding 5px
+                  color white
+              &:hover
+                .noWidth .fullwidth
+                  transform translate(0px, 0px)
+                  opacity 1
+    .error
+      padding 5px 0px
+      font-size 15px
+      color darkred
+      font-weight bold
+    &.hasErrTrue
+      .actualInput
+        .text
+          input
+            background-color rgba(245, 131, 131, 0.3)
+            border-bottom 2px solid darkred
+
+
+  .fullBlock
+    z-index 20
+    background-color lightblue 
+    box-shadow 0px 5px 30px -10px rgba(0,0,0,0.3)
+    border-radius 10px
+    display flex
+    flex-wrap nowrap
+    width 320px
+    .middle
+      min-width 100%
+    .side
+      max-width 0px
+      .innerSide
+        height 100%
+        min-width 60px
+        position relative
+        right 30px
+        display flex
+        justify-content center
+        align-items center
+        .round
+          height 35px
+          width 35px
+          background-color white
+          border-radius 100%
+          box-shadow 0px 5px 30px -10px rgba(0,0,0,1)
+          cursor pointer
+          display flex
+          justify-content center
+          align-items center
+          transform scale(1, 1) translate(0px, 0px)
+          opacity 1
+          transition transform 0.2s, opacity 0.2s
+          &:hover
+            transform scale(1.15, 1.15)
+          &:active
+            transform scale(1.05, 1.05)
+    .middle
+      box-sizing border-box
+      padding 5px 25px 10px 25px
+      .title
+        font-weight bold
+        font-size 20px
+    .nextOptions
+      max-width 0px
+      transform translate(0px, 0px)
+      opacity 1
+      transition transform 0.2s, opacity 0.2s
+      .closePopup
+        height 40px
+        width 40px
+        background-color white
+        box-shadow 0px 5px 30px -10px rgba(0,0,0,0.6)
+        display flex
+        justify-content center
+        align-items center
+        border-radius 100%
+        position relative
+        left -180px
+        top -15px
+        cursor pointer
+        background-color white
+        transition background-color 0.2s
+        &:hover
+          background-color #eee
+        svg
+          transform rotate(0.125turn)
+      .pos
+        position relative
+        top -5px
+        left -305px
+        background-color white
+        width 290px
+        border-radius 10px
+        box-shadow 0px 5px 30px -10px rgba(0,0,0,0.6)
+        overflow hidden
+        .optionsTitle
+          font-weight bold
+          padding 10px
+        .option
+          border-top 1px solid #eee
+          padding 10px
+          cursor pointer
+          background-color white
+          transition background-color 0.2s
+          &:hover
+            background-color #eee
+      &.showFalse
+        transform translate(0px, 5px)
+        opacity 0
+        pointer-events none
+    &.hoverFalse .side .round
+      transform scale(1, 1) translate(0px, 5px)
+      opacity 0
+  
+  .row
+    box-sizing border-box
+
+
+  .actualGraph
+    .graphPart
+      display flex
+      flex-wrap nowrap
+      align-items center
+      .lineToParrent
+        max-width 0px
+        max-height 0px
+        position relative
+        right 40px
+        svg
+          min-width 80px
+          
+      .graph
+        display flex
+        justify-content center
+        align-items center
+        padding 10px
+      
+  .startPoint
+    user-select none
+    -webkit-user-select none
+    h3
+      text-align center
+      padding 10px
+      position relative
+      right 7px
+
+  .addIcon
+    display inline-block
+    min-height 50px
+    max-height 50px
+    min-width 50px
+    max-width 50px
+    .round
+      position relative
+      left 90px
+      height 50px
+      width 50px
+      display flex
+      justify-content center
+      align-items center
+      background-color lightblue 
+      border-radius 100%
+      box-shadow 0px 5px 30px -10px rgba(0,0,0,0.6)
+      cursor pointer
+      transform scale(1, 1)
+      transition transform .2s
+      &:hover
+        transform scale(1.15, 1.15)
+      &:active
+        transform scale(1.05, 1.05)
+      svg
+        height 40px
+        width 40px
+        transform rotate(0turn)
+        transition transform .2s
+      &.open
+        svg
+          transform rotate(0.125turn)
+    .options
+      min-width 200px
+      pointer-events none
+      opacity 0
+      transform translate(0px, 5px)
+      transition opacity .2s, transform .2s
+      &.open
+        pointer-events auto
+        opacity 1
+        transform translate(0px, 0px)
+      .option
+        box-shadow 0px 3px 30px -10px rgba(0,0,0,0.4)
+        height 30px
+        font-size 20px
+        width 200px
+        margin 10px 5px
+        padding 5px 10px
+        border-radius 5px
+        background-color lightblue
+        cursor pointer
+        transform scale(1, 1)
+        transition transform .2s
+        -webkit-user-select none
+        user-select none
+        &:hover
+          transform scale(1.05, 1.05)
+        &:active
+          transform scale(1.01, 1.01)
+
