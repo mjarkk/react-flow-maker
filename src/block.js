@@ -1,6 +1,7 @@
 import React from 'react'
 import Input from './input'
 import {Delete, Add} from './icons'
+import ToolTip from './tooltip';
 
 export default class Block extends React.Component {
   constructor() {
@@ -60,7 +61,7 @@ export default class Block extends React.Component {
           </div>
         </div>
         <div className="middle">
-          <div className="title">{comp.title}</div>
+          <div className="title">{comp.title}<ToolTip transparrent={true} tip={comp.tooltip}/></div>
           <div className="inputs">
             {inputs.map((input, inputID) => {
               const inputData = data.inputData[input.name]
