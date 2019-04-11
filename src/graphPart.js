@@ -7,47 +7,75 @@ const GraphPartClass = class GraphPart extends React.Component {
 
     this.state = {
       element: undefined,
-      lastParrentPosition: 0,
+      lastParentPosition: 0,
+    }
+    
+    this.mounted = false
+  }
+
+  componentDidMount() {
+    this.mounted = true
+    this.watchParent()
+  }
+
+  componentWillUnmount() {
+    this.mounted = false
+  }
+
+  watchParent() {
+    if (this.mounted) {
+      let parentEl = this.props.connectTo
+      let parent = undefined
+      if (parentEl) {
+        parent = parentEl.getBoundingClientRect()
+        if (parent.top != this.state.lastParentPosition) {
+          this.setState({
+            lastParentPosition: parent.top
+          })
+        }
+      }
+      setTimeout(() => {
+        this.watchParent()
+      }, 800)
     }
   }
 
   render() {
-    let parrentLineHeight = 0
-    let parrentLineToTop = 0
+    let parentLineHeight = 0
+    let parentLineToTop = 0
     let type = ''
-    
+
     if (this.props.connectTo && this.state.element) {
-      let parrent = this.props.connectTo.getBoundingClientRect()
+      let parent = this.props.connectTo.getBoundingClientRect()
       let child = this.state.element.getBoundingClientRect()
-      let spaceBetween = (parrent.y + (parrent.height / 2)) - (child.y + (child.height / 2))
-      
+      let spaceBetween = (parent.y + (parent.height / 2)) - (child.y + (child.height / 2))  
+
       if (spaceBetween == 0) {
-        parrentLineHeight = 20
-        parrentLineToTop = 10
+        parentLineHeight = 20
+        parentLineToTop = 10
         type = 'straight'
       } else if (spaceBetween < 0) {
-        parrentLineHeight = ((-spaceBetween) + 20)
-        parrentLineToTop = parrentLineHeight - 10
+        parentLineHeight = ((-spaceBetween) + 20)
+        parentLineToTop = parentLineHeight - 10
         type = 'bottomToTop'
-      } 
-      else {
-        parrentLineHeight = spaceBetween + 20
-        parrentLineToTop = 10
+      } else {
+        parentLineHeight = spaceBetween + 20
+        parentLineToTop = 10
         type = 'topToBottom'
       }
     }
     return (
       <div className="graphPart" style={{width: this.props.width}}>
-        {parrentLineHeight && parrentLineToTop && type ?
-          <div className="lineToParrent" style={{bottom: `${parrentLineToTop}px`}}>
-            <svg viewBox={`0 0 80 ${parrentLineHeight}`} height={`${parrentLineHeight}px`} style={{minHeight: `${parrentLineHeight}px`}} xmlns="http://www.w3.org/2000/svg">
+        {parentLineHeight && parentLineToTop && type ?
+          <div className="lineToParrent" style={{bottom: `${parentLineToTop}px`}}>
+            <svg viewBox={`0 0 80 ${parentLineHeight}`} height={`${parentLineHeight}px`} style={{minHeight: `${parentLineHeight}px`}} xmlns="http://www.w3.org/2000/svg">
               { type == 'bottomToTop' ?
                 <path
                   strokeWidth="7" 
                   stroke="#ccc" 
                   strokeLinecap="round" 
                   fill="none" 
-                  d={`M0,10 C70,10 30,${parrentLineHeight-10} 80,${parrentLineHeight-10}`}
+                  d={`M0,10 C70,10 30,${parentLineHeight-10} 80,${parentLineHeight-10}`}
                 />
               : type == 'topToBottom' ?
                 <path 
@@ -55,7 +83,7 @@ const GraphPartClass = class GraphPart extends React.Component {
                   stroke="#ccc" 
                   strokeLinecap="round" 
                   fill="none" 
-                  d={`M0,${parrentLineHeight-10} C70,${parrentLineHeight-10} 30,10 80,10`}
+                  d={`M0,${parentLineHeight-10} C70,${parentLineHeight-10} 30,10 80,10`}
                 />
               : 
                 <path 
@@ -72,14 +100,14 @@ const GraphPartClass = class GraphPart extends React.Component {
         <div
           ref={element => {
             
-            let parrentEl = this.props.connectTo
-            let parrent = undefined
-            if (parrentEl) {
-              parrent = parrentEl.getBoundingClientRect()
+            let parentEl = this.props.connectTo
+            let parent = undefined
+            if (parentEl) {
+              parent = parentEl.getBoundingClientRect()
             }
 
             if (typeof this.state.element == 'object') {
-              if (!parrent || parrent.top == this.state.lastParrentPosition) {
+              if (!parent || parent.top == this.state.lastParentPosition) {
                 return
               }
             }
@@ -88,8 +116,8 @@ const GraphPartClass = class GraphPart extends React.Component {
               element,
             }
 
-            if (parrent) {
-              toUpdate.lastParrentPosition = parrent.top
+            if (parent) {
+              toUpdate.lastParentPosition = parent.top
             }
 
             this.setState(toUpdate)
@@ -97,10 +125,27 @@ const GraphPartClass = class GraphPart extends React.Component {
           className="graph" 
           style={{minWidth: this.props.itemWidth}}
         >
-          <Block Tree={this.props.Tree} Logic={this.props.Logic} data={this.props.data}/>
+          <Block 
+            graphInstance={this} 
+            graphParrentInstance={this.props.connectToInstance}
+            Tree={this.props.Tree} 
+            Logic={this.props.Logic} 
+            data={this.props.data}
+          />
         </div>
         <div className="next">
-          {this.props.data.next.map((item, i) => <GraphPartClass Tree={this.props.Tree} Logic={this.props.Logic} connectTo={this.state.element} width={this.props.width - this.props.itemWidth} itemWidth={this.props.itemWidth} key={i} data={item}/>)}
+          {this.props.data.next.map((item, i) => 
+            <GraphPartClass 
+              Tree={this.props.Tree} 
+              Logic={this.props.Logic} 
+              connectTo={this.state.element}
+              connectToInstance={this}
+              width={this.props.width - this.props.itemWidth} 
+              itemWidth={this.props.itemWidth}
+              key={i} 
+              data={item}
+            />
+          )}
         </div>
       </div>
     )

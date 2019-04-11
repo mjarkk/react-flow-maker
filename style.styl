@@ -141,6 +141,35 @@ blockBackgroundColor = #f4f4f4
     width 320px
     .middle
       min-width 100%
+      .inputs
+        display block
+        .showAdvanced
+          display flex
+          justify-content center
+          align-items center
+          margin-bottom 10px
+          .button
+            display flex
+            justify-content center
+            align-items center
+            flex-direction row
+            flex-wrap nowrap
+            background-color white
+            transition background-color 0.2s
+            border 2px solid black
+            border-radius 5px
+            cursor pointer
+            padding 2px 5px 5px 10px
+            user-select none
+            -webkit-user-select none
+            -webkit-touch-callout none
+            svg
+              position relative
+              top 2px
+            &:hover
+              background-color #eee
+      .showFalse
+        display none
     .side
       max-width 0px
       .innerSide
@@ -284,6 +313,7 @@ blockBackgroundColor = #f4f4f4
   .startPoint
     user-select none
     -webkit-user-select none
+    -webkit-touch-callout none
     h3
       text-align center
       padding 10px
@@ -349,6 +379,7 @@ blockBackgroundColor = #f4f4f4
         transition transform .2s
         -webkit-user-select none
         user-select none
+        -webkit-touch-callout none
         &:hover
           transform scale(1.05, 1.05)
         &:active

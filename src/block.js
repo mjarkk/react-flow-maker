@@ -1,7 +1,7 @@
 import React from 'react'
 import Input from './input'
-import {Delete, Add} from './icons'
-import ToolTip from './tooltip';
+import {Delete, Add, DropDown, DropUp} from './icons'
+import ToolTip from './tooltip'
 
 export default class Block extends React.Component {
   constructor() {
@@ -10,6 +10,7 @@ export default class Block extends React.Component {
     this.state = {
       hover: false,
       showAddOptions: false,
+      showAdvanced: false,
     }
 
     this.remove = this.remove.bind(this)
@@ -46,6 +47,7 @@ export default class Block extends React.Component {
     }
     const comp = data.component
     const inputs = comp.inputs
+    const advancedInputs = comp.advancedInputs
 
     return (
       <div 
@@ -71,7 +73,37 @@ export default class Block extends React.Component {
                   input={input}
                   initalVal={inputData ? inputData.value : undefined}
                   onChange={inputData => {
-                    this.props.Tree.updateInputValue(data.path, inputData, inputID)
+                    this.props.Tree.updateInputValue(data.path, inputData, inputID, false)
+                  }}
+                />
+              )
+            })}
+            {advancedInputs.length > 0?
+              <div 
+                className="showAdvanced" 
+                onClick={() => {
+                  this.setState({showAdvanced: !this.state.showAdvanced}, () => {
+                    if (this.props.graphParrentInstance) {
+                      this.props.graphParrentInstance.forceUpdate()
+                    } else if (this.props.graphInstance) {
+                      this.props.graphInstance.forceUpdate()
+                    }
+                  })
+                }}>
+                <div className="button">Advanced {this.state.showAdvanced ? <DropUp/> : <DropDown/>}</div>
+              </div>
+            :''}
+          </div>
+          <div className={`inputs advancedInputs show${this.state.showAdvanced ? 'True' : 'False'}`}>
+            {advancedInputs.map((input, inputID) => {
+              const inputData = data.inputData[input.name]
+              return (
+                <Input
+                  key={inputID}
+                  input={input}
+                  initalVal={inputData ? inputData.value : undefined}
+                  onChange={inputData => {
+                    this.props.Tree.updateInputValue(data.path, inputData, inputID, true)
                   }}
                 />
               )
