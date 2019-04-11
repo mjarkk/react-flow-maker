@@ -31,6 +31,13 @@ blockBackgroundColor = #f4f4f4
       color rgba(70,70,70,1)
       font-weight bold
       z-index 21
+      display flex
+      justify-content space-between
+      .tooltip
+        .icon
+          position relative
+          top 2px
+          right 2px
     .actualInput
       .text
         margin-bottom -23px
@@ -110,28 +117,6 @@ blockBackgroundColor = #f4f4f4
             transition background-color 0.1s
             &:hover
               background-color #eee
-            .optTooltip
-              width 26px
-              height 26px
-              .noWidth
-                max-width 0px
-                .fullwidth
-                  transform translate(0px, 5px)
-                  opacity 0
-                  pointer-events none
-                  transition transform 0.2s, opacity 0.2s
-                  width 300px
-                  position relative
-                  right 315px
-                  top -30px
-                  background-color #302118
-                  border-radius 6px
-                  padding 5px
-                  color white
-              &:hover
-                .noWidth .fullwidth
-                  transform translate(0px, 0px)
-                  opacity 1
     .error
       padding 5px 0px
       font-size 15px
@@ -189,6 +174,8 @@ blockBackgroundColor = #f4f4f4
       .title
         font-weight bold
         font-size 20px
+        display flex
+        justify-content space-between
     .nextOptions
       max-width 0px
       transform translate(0px, 0px)
@@ -244,6 +231,36 @@ blockBackgroundColor = #f4f4f4
   .row
     box-sizing border-box
 
+  .tooltip
+    width 26px
+    height 26px
+    .noWidth
+      max-width 0px
+      .fullwidth
+        z-index 24
+        transform translate(0px, 5px)
+        opacity 0
+        pointer-events none
+        transition transform 0.2s, opacity 0.2s
+        width 300px
+        position relative
+        right 315px
+        top -30px
+        background-color #302118
+        border-radius 6px
+        padding 5px
+        color white
+    &.transparrentTrue
+     .icon
+       opacity 0.5
+       transition opacity 0.2s
+    &:hover
+      .icon
+        opacity 1
+      .noWidth .fullwidth
+        transform translate(0px, 0px)
+        opacity 1
+     
 
   .actualGraph
     .graphPart

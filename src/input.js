@@ -1,5 +1,6 @@
 import React from 'react'
-import {DropDown, Info, Check} from './icons'
+import {DropDown, Check} from './icons'
+import ToolTip from './tooltip'
 
 export default class Input extends React.Component {
   constructor() {
@@ -88,7 +89,7 @@ export default class Input extends React.Component {
 
     return (
       <div className={`input hasErr${error ? 'True' : 'False'}`}>
-        <div className="label">{input.title}</div>
+        <div className="label">{input.title}<ToolTip transparrent={true} tip={input.tooltip}/></div>
         <div className="actualInput">
           {(input.type == 'text' || input.type == 'number')?
             <div className="text">
@@ -124,20 +125,7 @@ export default class Input extends React.Component {
                     }}
                   >
                     <div className="optTitle">{option.title}</div>
-                    {option.tooltip?
-                      <div className="optTooltip">
-                        <div className="icon">
-                          <Info/>
-                        </div>
-                        <div className="noWidth">
-                          <div className="fullwidth">
-                            <div className="popup">
-                              {option.tooltip}
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    :''}
+                    <ToolTip tip={option.tooltip}/>
                   </div>
                 )}
               </div>
