@@ -1,3 +1,7 @@
+borderColor = #dadddd
+borderWidth = 4px
+blockBackgroundColor = #f4f4f4
+
 .flowMakerComp
   font-size 18px
   font-weight normal
@@ -26,14 +30,18 @@
       left 4px
       color rgba(70,70,70,1)
       font-weight bold
+      z-index 21
     .actualInput
       .text
+        margin-bottom -23px
         input
           border-top-left-radius 5px
           border-top-right-radius 5px
-          background-color rgba(0,0,0,0)
+          background-color white
           font-size 18px
-          padding 5px
+          position relative
+          top -15px
+          padding 20px 5px 5px 5px
           border-bottom 2px solid black
           width 100%
           box-sizing border-box
@@ -61,7 +69,7 @@
             .inside
               opacity 0.1
       .dropdown
-        max-height 30px
+        max-height 40px
         .select
           display flex
           justify-content space-between
@@ -69,10 +77,15 @@
           flex-wrap nowrap
           border-bottom 2px solid black
           cursor pointer
+          background-color white
+          padding 20px 5px 5px 5px
+          margin-top -17px
+          border-top-left-radius 5px
+          border-top-right-radius 5px
         .options
           display block
           position relative
-          z-index 19
+          z-index 22
           background-color white
           border-radius 8px
           top -5px
@@ -134,7 +147,8 @@
 
   .fullBlock
     z-index 20
-    background-color lightblue 
+    background-color blockBackgroundColor
+    border borderWidth solid borderColor
     box-shadow 0px 5px 30px -10px rgba(0,0,0,0.3)
     border-radius 10px
     display flex
@@ -273,7 +287,9 @@
       display flex
       justify-content center
       align-items center
-      background-color lightblue 
+      background-color blockBackgroundColor
+      border borderWidth solid borderColor
+      box-sizing border-box
       border-radius 100%
       box-shadow 0px 5px 30px -10px rgba(0,0,0,0.6)
       cursor pointer
@@ -309,7 +325,8 @@
         margin 10px 5px
         padding 5px 10px
         border-radius 5px
-        background-color lightblue
+        background-color blockBackgroundColor
+        border borderWidth solid borderColor
         cursor pointer
         transform scale(1, 1)
         transition transform .2s
