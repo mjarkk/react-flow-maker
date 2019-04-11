@@ -32,16 +32,19 @@ export default class Logic {
             return
           }
           
+          const alreadyUsedNames = []
+
           let toInsert = {
             name: component.name,
             title: component.title,
             next: component.next ? Array.isArray(component.next) ? component.next : [component.next] : [],
             tooltip: component.tooltip,
             inputs: [],
+            advancedInputs: [],
           }
 
           if (Array.isArray(component.inputs)) {
-            toInsert.inputs = component.inputs.map((input, inputID) => {
+            component.inputs.map((input, inputID) => {
               if (!input.title || !input.name || !input.type) {
                 warn(`logic.components[${i}].inputs[${inputID}] does not have a name, type or title field, this input will be ignored`)
                 return
@@ -54,6 +57,11 @@ export default class Logic {
               
               if (typeof input.tooltip != 'string' && input.tooltip !== undefined) {
                 warn(`logic.components[${i}].inputs[${inputID}].tooltip must be a string or not undefined`)
+                return
+              }
+
+              if (alreadyUsedNames.indexOf(input.name) != -1) {
+                warn(`logic.components[${i}].inputs[${inputID}].name can't be equal to other names`)
                 return
               }
 
@@ -117,8 +125,10 @@ export default class Logic {
                   return
               }
 
-              return toReturn
-            }).filter(item => item)
+              alreadyUsedNames.push(input.name)
+              toInsert[input.advanced ? 'advancedInputs' : 'inputs'].push(toReturn)
+              return
+            })
           }
 
           conf.components[component.name] = toInsert

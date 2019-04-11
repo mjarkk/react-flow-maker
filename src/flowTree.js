@@ -1,5 +1,4 @@
 import utils from './utils'
-import { timingSafeEqual } from 'crypto';
 
 export default class Tree {
   constructor(Logic, FlowMaker) {
@@ -191,12 +190,21 @@ export default class Tree {
     this.FlowMaker.forceUpdate()
   }
 
-  updateInputValue(path, value, field) {
+  updateInputValue(path, value, field, isAdvanced) {
     let component = this.findPath(path)
 
-    if (component && component.component.inputs && component.component.inputs[field]) {
-      const input = component.component.inputs[field]
-      component.inputData[input.name] = value
+    if (component) {
+      if (!isAdvanced) {
+        if (component.component.inputs && component.component.inputs[field]) {
+          const input = component.component.inputs[field]
+          component.inputData[input.name] = value
+        }
+      } else {
+        if (component.component.advancedInputs && component.component.advancedInputs[field]) {
+          const input = component.component.advancedInputs[field]
+          component.inputData[input.name] = value
+        }
+      }
     }
 
     this.export()

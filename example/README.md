@@ -1,10 +1,13 @@
 # Flow Maker example
+This example shows a haproxy config that can be drawn  
+
 To run this:
+```sh
+# yarn
+yarn
+yarn watch
 
-- `yarn`
-- `yarn watch`
-
-Or with npm
-
-- `npm i`
-- `npm run watch`
+# npm
+npm i
+npm run watch
+```

@@ -69,11 +69,12 @@ const appLogic = {
           title: 'Domain name',
           type: 'text',
           validation: domainCheck,
-        }, {
+        },{
           name: 'lbalgo',
           title: 'Load balancing algorithm',
           type: 'dropdown',
           default: 'roundrobin',
+          advanced: true,
           options: [
             {title: 'Roundrobin', value: 'roundrobin', tooltip: 'The best choise for most applications'},
             {title: 'Least Connections', value: 'leastconn', tooltip: 'When handeling with multiple long running request this works the best'},
@@ -86,11 +87,13 @@ const appLogic = {
           title: 'Persistence',
           type: 'switch',
           default: true,
+          advanced: true,
         },{
           name: 'persistenceduration',
           title: 'Persistence duration',
           type: 'text',
           default: '1h',
+          advanced: true,
           validation: (ctx, input) => {
             if (/[0-9]+(h|m|d)/.test(input)) {
               return true
