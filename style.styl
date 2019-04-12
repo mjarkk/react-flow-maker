@@ -21,12 +21,12 @@ blockBackgroundColor = #f4f4f4
     flex-wrap nowrap
 
   .input
-    padding-bottom 15px
+    padding-bottom 10px
     .label
       max-height 17px
       font-size 16px
       position relative
-      top 1px
+      top 3px
       left 4px
       color rgba(70,70,70,1)
       font-weight bold
@@ -42,15 +42,15 @@ blockBackgroundColor = #f4f4f4
           right 2px
     .actualInput
       .text
-        margin-bottom -23px
+        margin-bottom -20px
         input
-          border-top-left-radius 5px
-          border-top-right-radius 5px
+          border-top-left-radius 6px
+          border-top-right-radius 6px
           background-color white
           font-size 18px
           position relative
           top -15px
-          padding 20px 5px 5px 5px
+          padding 20px 5px 2px 5px
           border-bottom 2px solid black
           width 100%
           box-sizing border-box
@@ -58,25 +58,32 @@ blockBackgroundColor = #f4f4f4
         *
           cursor pointer
         .actualSwitch
-          width 24px
-          height 24px
+          width 20px
+          height 20px
           background-color rgba(255,255,255,1)
           margin-top 7px
           border-radius 6px
           border 2px solid black
-          display flex
-          justify-content center
-          align-items center
           transition background-color 0.2s
           .inside
+            display flex
+            justify-content center
+            align-items center
             position relative
-            top 3px
+            top 2px
             opacity 1
             transition opacity 0.2s
+            svg
+              height 18px
+              width 18px
+              transform rotate(0turn)
+              transition transform 0.3s
           &.false
             background-color rgba(255,255,255,0.3)
             .inside
-              opacity 0.1
+              opacity 0
+              svg
+                transform rotate(0.1turn)
       .dropdown
         max-height 40px
         .select
@@ -147,7 +154,7 @@ blockBackgroundColor = #f4f4f4
           display flex
           justify-content center
           align-items center
-          margin-bottom 10px
+          margin-bottom 5px
           .button
             display flex
             justify-content center
@@ -159,7 +166,7 @@ blockBackgroundColor = #f4f4f4
             border 2px solid black
             border-radius 5px
             cursor pointer
-            padding 2px 5px 5px 10px
+            padding 0px 3px 2px 7px
             user-select none
             -webkit-user-select none
             -webkit-touch-callout none
@@ -200,10 +207,10 @@ blockBackgroundColor = #f4f4f4
             transform scale(1.05, 1.05)
     .middle
       box-sizing border-box
-      padding 5px 25px 10px 25px
+      padding 2px 25px 4px 25px
       .title
         font-weight bold
-        font-size 20px
+        font-size 18px
         display flex
         justify-content space-between
     .nextOptions

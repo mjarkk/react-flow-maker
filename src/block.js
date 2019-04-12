@@ -99,6 +99,7 @@ export default class Block extends React.Component {
               const inputData = data.inputData[input.name]
               return (
                 <Input
+                  hiddenDropdown={!this.state.showAdvanced}
                   key={inputID}
                   input={input}
                   initalVal={inputData ? inputData.value : undefined}

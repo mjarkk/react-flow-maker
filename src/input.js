@@ -78,6 +78,11 @@ export default class Input extends React.Component {
 
   componentDidUpdate() {
     this.updateDefaultVal()
+    if (this.props.hiddenDropdown && this.state.dropDownopen) {
+      this.setState({
+        dropDownopen: false,
+      })
+    }
   }
   
   render() {
