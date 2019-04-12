@@ -21,13 +21,13 @@ blockBackgroundColor = #f4f4f4
     flex-wrap nowrap
 
   .input
-    padding-bottom 15px
+    padding-bottom 10px
     .label
       max-height 17px
-      font-size 16px
+      font-size 15px
       position relative
-      top 1px
-      left 4px
+      top 3px
+      padding 0px 4px
       color rgba(70,70,70,1)
       font-weight bold
       z-index 21
@@ -39,18 +39,17 @@ blockBackgroundColor = #f4f4f4
         .icon
           position relative
           top 2px
-          right 2px
     .actualInput
       .text
-        margin-bottom -23px
+        margin-bottom -20px
         input
-          border-top-left-radius 5px
-          border-top-right-radius 5px
+          border-top-left-radius 6px
+          border-top-right-radius 6px
           background-color white
-          font-size 18px
+          font-size 16px
           position relative
           top -15px
-          padding 20px 5px 5px 5px
+          padding 20px 5px 2px 5px
           border-bottom 2px solid black
           width 100%
           box-sizing border-box
@@ -58,25 +57,32 @@ blockBackgroundColor = #f4f4f4
         *
           cursor pointer
         .actualSwitch
-          width 24px
-          height 24px
+          width 20px
+          height 20px
           background-color rgba(255,255,255,1)
           margin-top 7px
           border-radius 6px
           border 2px solid black
-          display flex
-          justify-content center
-          align-items center
           transition background-color 0.2s
           .inside
+            display flex
+            justify-content center
+            align-items center
             position relative
-            top 3px
+            top 2px
             opacity 1
             transition opacity 0.2s
+            svg
+              height 18px
+              width 18px
+              transform rotate(0turn)
+              transition transform 0.3s
           &.false
             background-color rgba(255,255,255,0.3)
             .inside
-              opacity 0.1
+              opacity 0
+              svg
+                transform rotate(0.1turn)
       .dropdown
         max-height 40px
         .select
@@ -87,17 +93,18 @@ blockBackgroundColor = #f4f4f4
           border-bottom 2px solid black
           cursor pointer
           background-color white
-          padding 20px 5px 5px 5px
+          padding 18px 5px 0px 5px
           margin-top -17px
           border-top-left-radius 5px
           border-top-right-radius 5px
+          font-size 16px
         .options
           display block
           position relative
           z-index 24
           background-color white
           border-radius 8px
-          top -12px
+          top -7px
           box-shadow 0px 2px 20px -5px rgba(0,0,0,0.4)
           transform translate(0px, 5px)
           opacity 0
@@ -108,7 +115,7 @@ blockBackgroundColor = #f4f4f4
             opacity 1
             pointer-events auto
           .option
-            padding 10px
+            padding 6px 10px
             display flex
             justify-content space-between
             align-items center
@@ -119,9 +126,11 @@ blockBackgroundColor = #f4f4f4
             transition background-color 0.1s
             &:hover
               background-color #eee
+            .optTitle
+              font-size 17px
     .error
       padding 5px 0px
-      font-size 15px
+      font-size 14px
       color darkred
       font-weight bold
     &.hasErrTrue
@@ -147,8 +156,10 @@ blockBackgroundColor = #f4f4f4
           display flex
           justify-content center
           align-items center
-          margin-bottom 10px
+          margin-bottom 5px
           .button
+            font-size 15px
+            font-weight bold
             display flex
             justify-content center
             align-items center
@@ -159,13 +170,13 @@ blockBackgroundColor = #f4f4f4
             border 2px solid black
             border-radius 5px
             cursor pointer
-            padding 2px 5px 5px 10px
+            padding 0px 3px 2px 7px
             user-select none
             -webkit-user-select none
             -webkit-touch-callout none
             svg
               position relative
-              top 2px
+              top 1px
             &:hover
               background-color #eee
       .showFalse
@@ -200,10 +211,10 @@ blockBackgroundColor = #f4f4f4
             transform scale(1.05, 1.05)
     .middle
       box-sizing border-box
-      padding 5px 25px 10px 25px
+      padding 2px 25px 4px 25px
       .title
         font-weight bold
-        font-size 20px
+        font-size 17px
         display flex
         justify-content space-between
     .nextOptions
@@ -262,8 +273,8 @@ blockBackgroundColor = #f4f4f4
     box-sizing border-box
 
   .tooltip
-    width 26px
-    height 26px
+    width 20px
+    height 20px
     .noWidth
       max-width 0px
       .fullwidth
@@ -309,7 +320,7 @@ blockBackgroundColor = #f4f4f4
         display flex
         justify-content center
         align-items center
-        padding 10px
+        padding 5px 10px
       
   .startPoint
     user-select none

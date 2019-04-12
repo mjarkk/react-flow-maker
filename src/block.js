@@ -79,18 +79,19 @@ export default class Block extends React.Component {
               )
             })}
             {advancedInputs.length > 0?
-              <div 
-                className="showAdvanced" 
-                onClick={() => {
-                  this.setState({showAdvanced: !this.state.showAdvanced}, () => {
-                    if (this.props.graphParrentInstance) {
-                      this.props.graphParrentInstance.forceUpdate()
-                    } else if (this.props.graphInstance) {
-                      this.props.graphInstance.forceUpdate()
-                    }
-                  })
-                }}>
-                <div className="button">Advanced {this.state.showAdvanced ? <DropUp/> : <DropDown/>}</div>
+              <div className="showAdvanced">
+                <div 
+                  className="button"
+                  onClick={() => {
+                    this.setState({showAdvanced: !this.state.showAdvanced}, () => {
+                      if (this.props.graphParrentInstance) {
+                        this.props.graphParrentInstance.forceUpdate()
+                      } else if (this.props.graphInstance) {
+                        this.props.graphInstance.forceUpdate()
+                      }
+                    })
+                  }}
+                >Advanced {this.state.showAdvanced ? <DropUp/> : <DropDown/>}</div>
               </div>
             :''}
           </div>
@@ -99,6 +100,7 @@ export default class Block extends React.Component {
               const inputData = data.inputData[input.name]
               return (
                 <Input
+                  hiddenDropdown={!this.state.showAdvanced}
                   key={inputID}
                   input={input}
                   initalVal={inputData ? inputData.value : undefined}
