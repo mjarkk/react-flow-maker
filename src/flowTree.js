@@ -178,9 +178,7 @@ export default class Tree {
         toPush.path.push(item.id)
         mapTo.push(toPush)
 
-        lastIds.push(item.id)
-
-        mapOverFlow(item.next, mapTo[mapTo.length-1].next, lastIds)
+        mapOverFlow(item.next, mapTo[mapTo.length-1].next, [...lastIds, item.id])
       })
     }
     mapOverFlow(flow, newFlow, [])

@@ -24,10 +24,10 @@ blockBackgroundColor = #f4f4f4
     padding-bottom 10px
     .label
       max-height 17px
-      font-size 16px
+      font-size 15px
       position relative
       top 3px
-      left 4px
+      padding 0px 4px
       color rgba(70,70,70,1)
       font-weight bold
       z-index 21
@@ -39,7 +39,6 @@ blockBackgroundColor = #f4f4f4
         .icon
           position relative
           top 2px
-          right 2px
     .actualInput
       .text
         margin-bottom -20px
@@ -47,7 +46,7 @@ blockBackgroundColor = #f4f4f4
           border-top-left-radius 6px
           border-top-right-radius 6px
           background-color white
-          font-size 18px
+          font-size 16px
           position relative
           top -15px
           padding 20px 5px 2px 5px
@@ -94,17 +93,18 @@ blockBackgroundColor = #f4f4f4
           border-bottom 2px solid black
           cursor pointer
           background-color white
-          padding 20px 5px 5px 5px
+          padding 18px 5px 0px 5px
           margin-top -17px
           border-top-left-radius 5px
           border-top-right-radius 5px
+          font-size 16px
         .options
           display block
           position relative
           z-index 24
           background-color white
           border-radius 8px
-          top -12px
+          top -7px
           box-shadow 0px 2px 20px -5px rgba(0,0,0,0.4)
           transform translate(0px, 5px)
           opacity 0
@@ -115,7 +115,7 @@ blockBackgroundColor = #f4f4f4
             opacity 1
             pointer-events auto
           .option
-            padding 10px
+            padding 6px 10px
             display flex
             justify-content space-between
             align-items center
@@ -126,9 +126,11 @@ blockBackgroundColor = #f4f4f4
             transition background-color 0.1s
             &:hover
               background-color #eee
+            .optTitle
+              font-size 17px
     .error
       padding 5px 0px
-      font-size 15px
+      font-size 14px
       color darkred
       font-weight bold
     &.hasErrTrue
@@ -156,6 +158,8 @@ blockBackgroundColor = #f4f4f4
           align-items center
           margin-bottom 5px
           .button
+            font-size 15px
+            font-weight bold
             display flex
             justify-content center
             align-items center
@@ -172,7 +176,7 @@ blockBackgroundColor = #f4f4f4
             -webkit-touch-callout none
             svg
               position relative
-              top 2px
+              top 1px
             &:hover
               background-color #eee
       .showFalse
@@ -210,7 +214,7 @@ blockBackgroundColor = #f4f4f4
       padding 2px 25px 4px 25px
       .title
         font-weight bold
-        font-size 18px
+        font-size 17px
         display flex
         justify-content space-between
     .nextOptions
@@ -269,8 +273,8 @@ blockBackgroundColor = #f4f4f4
     box-sizing border-box
 
   .tooltip
-    width 26px
-    height 26px
+    width 20px
+    height 20px
     .noWidth
       max-width 0px
       .fullwidth
@@ -316,7 +320,7 @@ blockBackgroundColor = #f4f4f4
         display flex
         justify-content center
         align-items center
-        padding 10px
+        padding 5px 10px
       
   .startPoint
     user-select none
