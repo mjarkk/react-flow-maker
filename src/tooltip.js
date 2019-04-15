@@ -8,13 +8,13 @@ export default class ToolTip extends React.Component {
     }
 
     return (
-      <div className={`tooltip transparrent${this.props.transparrent ? 'True' : 'False'}`}>
-        <div className="icon">
+      <div className={`flow-tooltip flow-transparrent${this.props.transparrent ? 'True' : 'False'}`}>
+        <div className="flow-icon">
           <Info/>
         </div>
-        <div className="noWidth">
-          <div className="fullwidth">
-            <div className="popup">
+        <div className="flow-noWidth">
+          <div className="flow-fullwidth">
+            <div className="flow-popup">
               {this.props.tip}
             </div>
           </div>

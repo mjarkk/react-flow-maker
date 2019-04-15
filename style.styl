@@ -20,9 +20,9 @@ blockBackgroundColor = #f4f4f4
     display flex
     flex-wrap nowrap
 
-  .input
+  .flow-input
     padding-bottom 10px
-    .label
+    .flow-label
       max-height 17px
       font-size 15px
       position relative
@@ -35,12 +35,12 @@ blockBackgroundColor = #f4f4f4
       justify-content space-between
       span
         pointer-events none
-      .tooltip
-        .icon
+      .flow-tooltip
+        .flow-icon
           position relative
           top 2px
-    .actualInput
-      .text
+    .flow-actualInput
+      .flow-text
         margin-bottom -20px
         input
           border-top-left-radius 6px
@@ -53,10 +53,10 @@ blockBackgroundColor = #f4f4f4
           border-bottom 2px solid black
           width 100%
           box-sizing border-box
-      .switch
+      .flow-switch
         *
           cursor pointer
-        .actualSwitch
+        .flow-actualSwitch
           width 20px
           height 20px
           background-color rgba(255,255,255,1)
@@ -64,7 +64,7 @@ blockBackgroundColor = #f4f4f4
           border-radius 6px
           border 2px solid black
           transition background-color 0.2s
-          .inside
+          .flow-inside
             display flex
             justify-content center
             align-items center
@@ -77,15 +77,15 @@ blockBackgroundColor = #f4f4f4
               width 18px
               transform rotate(0turn)
               transition transform 0.3s
-          &.false
+          &.flow-false
             background-color rgba(255,255,255,0.3)
-            .inside
+            .flow-inside
               opacity 0
               svg
                 transform rotate(0.1turn)
-      .dropdown
+      .flow-dropdown
         max-height 40px
-        .select
+        .flow-select
           display flex
           justify-content space-between
           align-items center
@@ -98,7 +98,7 @@ blockBackgroundColor = #f4f4f4
           border-top-left-radius 5px
           border-top-right-radius 5px
           font-size 16px
-        .options
+        .flow-options
           display block
           position relative
           z-index 24
@@ -110,11 +110,11 @@ blockBackgroundColor = #f4f4f4
           opacity 0
           pointer-events none
           transition transform 0.2s, opacity 0.2s
-          &.openTrue
+          &.flow-openTrue
             transform translate(0px, 0px)
             opacity 1
             pointer-events auto
-          .option
+          .flow-option
             padding 6px 10px
             display flex
             justify-content space-between
@@ -126,21 +126,21 @@ blockBackgroundColor = #f4f4f4
             transition background-color 0.1s
             &:hover
               background-color #eee
-            .optTitle
+            .flow-optTitle
               font-size 17px
-    .error
+    .flow-error
       padding 5px 0px
       font-size 14px
       color darkred
       font-weight bold
-    &.hasErrTrue
-      .actualInput
-        .text
+    &.flow-hasErrTrue
+      .flow-actualInput
+        .flow-text
           input
             background-color rgba(245, 131, 131, 0.3)
             border-bottom 2px solid darkred
 
-  .fullBlock
+  .flow-fullBlock
     background-color blockBackgroundColor
     border borderWidth solid borderColor
     box-shadow 0px 5px 30px -10px rgba(0,0,0,0.3)
@@ -148,16 +148,16 @@ blockBackgroundColor = #f4f4f4
     display flex
     flex-wrap nowrap
     width 320px
-    .middle
+    .flow-middle
       min-width 100%
-      .inputs
+      .flow-inputs
         display block
-        .showAdvanced
+        .flow-showAdvanced
           display flex
           justify-content center
           align-items center
           margin-bottom 5px
-          .button
+          .flow-button
             font-size 15px
             font-weight bold
             display flex
@@ -179,11 +179,11 @@ blockBackgroundColor = #f4f4f4
               top 1px
             &:hover
               background-color #eee
-      .showFalse
+      .flow-showFalse
         display none
-    .side
+    .flow-side
       max-width 0px
-      .innerSide
+      .flow-innerSide
         height 100%
         min-width 60px
         position relative
@@ -192,7 +192,7 @@ blockBackgroundColor = #f4f4f4
         justify-content center
         align-items center
         z-index 21
-        .round
+        .flow-round
           height 35px
           width 35px
           background-color white
@@ -209,20 +209,20 @@ blockBackgroundColor = #f4f4f4
             transform scale(1.15, 1.15)
           &:active
             transform scale(1.05, 1.05)
-    .middle
+    .flow-middle
       box-sizing border-box
       padding 2px 25px 4px 25px
-      .title
+      .flow-title
         font-weight bold
         font-size 17px
         display flex
         justify-content space-between
-    .nextOptions
+    .flow-nextOptions
       max-width 0px
       transform translate(0px, 0px)
       opacity 1
       transition transform 0.2s, opacity 0.2s
-      .closePopup
+      .flow-closePopup
         height 40px
         width 40px
         background-color white
@@ -241,7 +241,7 @@ blockBackgroundColor = #f4f4f4
           background-color #eee
         svg
           transform rotate(0.125turn)
-      .pos
+      .flow-pos
         position relative
         top -5px
         left -305px
@@ -250,10 +250,10 @@ blockBackgroundColor = #f4f4f4
         border-radius 10px
         box-shadow 0px 5px 30px -10px rgba(0,0,0,0.6)
         overflow hidden
-        .optionsTitle
+        .flow-optionsTitle
           font-weight bold
           padding 10px
-        .option
+        .flow-option
           border-top 1px solid #eee
           padding 10px
           cursor pointer
@@ -261,23 +261,23 @@ blockBackgroundColor = #f4f4f4
           transition background-color 0.2s
           &:hover
             background-color #eee
-      &.showFalse
+      &.flow-showFalse
         transform translate(0px, 5px)
         opacity 0
         pointer-events none
-    &.hoverFalse .side .round
+    &.flow-hoverFalse .flow-side .flow-round
       transform scale(1, 1) translate(0px, 5px)
       opacity 0
   
-  .row
+  .flow-row
     box-sizing border-box
 
-  .tooltip
+  .flow-tooltip
     width 20px
     height 20px
-    .noWidth
+    .flow-noWidth
       max-width 0px
-      .fullwidth
+      .flow-fullwidth
         z-index 24
         transform translate(0px, 5px)
         opacity 0
@@ -291,24 +291,24 @@ blockBackgroundColor = #f4f4f4
         border-radius 6px
         padding 5px
         color white
-    &.transparrentTrue
-     .icon
+    &.flow-transparrentTrue
+     .flow-icon
        opacity 0.5
        transition opacity 0.2s
     &:hover
-      .icon
+      .flow-icon
         opacity 1
-      .noWidth .fullwidth
+      .flow-noWidth .flow-fullwidth
         transform translate(0px, 0px)
         opacity 1
      
 
-  .actualGraph
-    .graphPart
+  .flow-actualGraph
+    .flow-graphPart
       display flex
       flex-wrap nowrap
       align-items center
-      .lineToParrent
+      .flow-lineToParrent
         max-width 0px
         max-height 0px
         position relative
@@ -316,13 +316,13 @@ blockBackgroundColor = #f4f4f4
         svg
           min-width 80px
           
-      .graph
+      .flow-graph
         display flex
         justify-content center
         align-items center
         padding 5px 10px
       
-  .startPoint
+  .flow-startPoint
     user-select none
     -webkit-user-select none
     -webkit-touch-callout none
@@ -332,13 +332,13 @@ blockBackgroundColor = #f4f4f4
       position relative
       right 7px
 
-  .addIcon
+  .flow-addIcon
     display inline-block
     min-height 50px
     max-height 50px
     min-width 50px
     max-width 50px
-    .round
+    .flow-round
       position relative
       left 90px
       height 50px
@@ -363,20 +363,20 @@ blockBackgroundColor = #f4f4f4
         width 40px
         transform rotate(0turn)
         transition transform .2s
-      &.open
+      &.flow-open
         svg
           transform rotate(0.125turn)
-    .options
+    .flow-options
       min-width 200px
       pointer-events none
       opacity 0
       transform translate(0px, 5px)
       transition opacity .2s, transform .2s
-      &.open
+      &.flow-open
         pointer-events auto
         opacity 1
         transform translate(0px, 0px)
-      .option
+      .flow-option
         box-shadow 0px 3px 30px -10px rgba(0,0,0,0.4)
         height 30px
         font-size 20px
