@@ -7,13 +7,13 @@ This component makes it easy to create flows.
 See [./example](./example)
 
 ## How to use
-**NOTE:** This requires transpiling of stylus files *[rollup](https://github.com/mtojo/rollup-plugin-stylus-css-modules) [webpack](https://github.com/shama/stylus-loader)*.  
 ```sh
 npm i mjarkk/react-flow-maker
 ```
 
 ```jsx
 import FlowMaker from 'flowmaker'
+import 'flowmaker/dist/flowmaker.css'
 // ...
 <FlowMaker
   logic={{
