@@ -1,12 +1,14 @@
 {
   "name": "flowmaker",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "license": "MIT",
   "source": "flowmaker.js",
   "main": "dist/flowmaker.js",
   "module": "dist/flowmaker.mjs",
   "scripts": {
-    "build": "microbundle"
+    "help": "microbundle --help",
+    "build": "microbundle --strict --compress --jsx React.createElement",
+    "watch": "microbundle --strict --watch --jsx React.createElement"
   },
   "dependencies": {
     "js-sha1": "^0.6.0",
