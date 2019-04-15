@@ -1,9 +1,10 @@
 {
   "name": "flowmaker",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "main": "./flowmaker.js",
   "license": "MIT",
   "dependencies": {
+    "@babel/runtime": "^7.4.3",
     "js-sha1": "^0.6.0",
     "react": "^16.8.6",
     "stylus": "^0.54.5"
