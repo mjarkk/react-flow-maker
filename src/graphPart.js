@@ -65,9 +65,9 @@ const GraphPartClass = class GraphPart extends React.Component {
       }
     }
     return (
-      <div className="graphPart" style={{width: this.props.width}}>
+      <div className="flow-graphPart" style={{width: this.props.width}}>
         {parentLineHeight && parentLineToTop && type ?
-          <div className="lineToParrent" style={{bottom: `${parentLineToTop}px`}}>
+          <div className="flow-lineToParrent" style={{bottom: `${parentLineToTop}px`}}>
             <svg viewBox={`0 0 80 ${parentLineHeight}`} height={`${parentLineHeight}px`} style={{minHeight: `${parentLineHeight}px`}} xmlns="http://www.w3.org/2000/svg">
               { type == 'bottomToTop' ?
                 <path
@@ -122,7 +122,7 @@ const GraphPartClass = class GraphPart extends React.Component {
 
             this.setState(toUpdate)
           }} 
-          className="graph" 
+          className="flow-graph" 
           style={{minWidth: this.props.itemWidth}}
         >
           <Block 
@@ -133,7 +133,7 @@ const GraphPartClass = class GraphPart extends React.Component {
             data={this.props.data}
           />
         </div>
-        <div className="next">
+        <div className="flow-next">
           {this.props.data.next.map((item, i) => 
             <GraphPartClass 
               Tree={this.props.Tree} 

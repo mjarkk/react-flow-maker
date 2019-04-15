@@ -44,9 +44,9 @@ export default class FlowMaker extends React.Component {
     return (
       <div className="flowMakerComp">
         <div className="flowMakerContainer" style={{minWidth: `${250 + (380 * this.Tree.maxDepth)}px`}}>
-          <div className="row" style={{minWidth: '250px'}}>
+          <div className="flow-row" style={{minWidth: '250px'}}>
             {s.introComponents.length > 0 ?
-              <div className="startPoint">
+              <div className="flow-startPoint">
                 <h3>Start here</h3>
                 <AddButton
                   Tree={this.Tree}
@@ -58,7 +58,7 @@ export default class FlowMaker extends React.Component {
             :''}
           </div>
 
-          <div className="actualGraph" style={{width: `${380 * this.Tree.maxDepth}px`}}>
+          <div className="flow-actualGraph" style={{width: `${380 * this.Tree.maxDepth}px`}}>
             {this.Tree.flow.map((item, i) => 
               <GraphPart
                 Tree={this.Tree} 

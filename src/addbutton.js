@@ -24,13 +24,13 @@ export default class AddButton extends React.Component {
     const p = this.props
     const s = this.state
     return (
-      <div className="addIcon">
-        <div className={`round ${s.open ? 'open' : 'closed'}`} onClick={() => this.clickRoundButton()}>
+      <div className="flow-addIcon">
+        <div className={`flow-round ${s.open ? 'flow-open' : 'flow-closed'}`} onClick={() => this.clickRoundButton()}>
           <Add/>
         </div>
-        <div className={`options ${s.open ? 'open' : 'closed'}`}>
+        <div className={`flow-options ${s.open ? 'flow-open' : 'flow-closed'}`}>
           {p.options ? p.options.map((option, id) => 
-            <div onClick={() => this.clickOption(option)} key={id} className="option">
+            <div onClick={() => this.clickOption(option)} key={id} className="flow-option">
               {this.props ? this.props.Logic.title(option) : option}
             </div>
           ):''}

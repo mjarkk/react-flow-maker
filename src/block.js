@@ -51,20 +51,20 @@ export default class Block extends React.Component {
 
     return (
       <div 
-        className={`fullBlock hover${this.state.hover && !this.state.showAddOptions ? 'True' : 'False'}`}
+        className={`flow-fullBlock flow-hover${this.state.hover && !this.state.showAddOptions ? 'True' : 'False'}`}
         onMouseOver={() => this.setState({hover: true})}
         onMouseOut={() => this.setState({hover: false})}
       >
-        <div className="side">
-          <div className="innerSide">
-            <div className="round" onClick={this.remove}>
+        <div className="flow-side">
+          <div className="flow-innerSide">
+            <div className="flow-round" onClick={this.remove}>
               <Delete/>
             </div>
           </div>
         </div>
-        <div className="middle">
-          <div className="title">{comp.title}<ToolTip transparrent={true} tip={comp.tooltip}/></div>
-          <div className="inputs">
+        <div className="flow-middle">
+          <div className="flow-title">{comp.title}<ToolTip transparrent={true} tip={comp.tooltip}/></div>
+          <div className="flow-inputs">
             {inputs.map((input, inputID) => {
               const inputData = data.inputData[input.name]
               return (
@@ -79,9 +79,9 @@ export default class Block extends React.Component {
               )
             })}
             {advancedInputs.length > 0?
-              <div className="showAdvanced">
+              <div className="flow-showAdvanced">
                 <div 
-                  className="button"
+                  className="flow-button"
                   onClick={() => {
                     this.setState({showAdvanced: !this.state.showAdvanced}, () => {
                       if (this.props.graphParrentInstance) {
@@ -95,7 +95,7 @@ export default class Block extends React.Component {
               </div>
             :''}
           </div>
-          <div className={`inputs advancedInputs show${this.state.showAdvanced ? 'True' : 'False'}`}>
+          <div className={`flow-inputs flow-advancedInputs flow-show${this.state.showAdvanced ? 'True' : 'False'}`}>
             {advancedInputs.map((input, inputID) => {
               const inputData = data.inputData[input.name]
               return (
@@ -113,16 +113,16 @@ export default class Block extends React.Component {
           </div>
         </div>
         {comp.next.length > 0 ?
-          <div className={`nextOptions show${this.state.showAddOptions ? 'True' : 'False'}`}>
-            <div className="closePopup" onClick={() => this.realAdd()}>
+          <div className={`flow-nextOptions flow-show${this.state.showAddOptions ? 'True' : 'False'}`}>
+            <div className="flow-closePopup" onClick={() => this.realAdd()}>
               <Add/>
             </div>
-            <div className="pos">
-              <div className="optionsTitle">Options</div>
+            <div className="flow-pos">
+              <div className="flow-optionsTitle">Options</div>
               {comp.next.map((componentName, key) => 
                 <div 
                   onClick={() => this.realAdd({componentName})} 
-                  className="option" 
+                  className="flow-option" 
                   key={key}
                 >{this.props ? this.props.Logic.title(componentName) : componentName}</div>
               )}
@@ -130,9 +130,9 @@ export default class Block extends React.Component {
           </div>
         :''}
         {comp.next.length > 0 ?
-          <div className="side">
-            <div className="innerSide">
-              <div className="round" onClick={() => this.add()}>
+          <div className="flow-side">
+            <div className="flow-innerSide">
+              <div className="flow-round" onClick={() => this.add()}>
                 <Add/>
               </div>
             </div>
