@@ -93,7 +93,7 @@ export default class Input extends React.Component {
     }
 
     return (
-      <div className={`flow-input hasErr${error ? 'True' : 'False'}`}>
+      <div className={`flow-input flow-hasErr${error ? 'True' : 'False'}`}>
         <div className="flow-label"><span>{input.title}</span><ToolTip transparrent={true} tip={input.tooltip}/></div>
         <div className="flow-actualInput">
           {(input.type == 'text' || input.type == 'number')?
