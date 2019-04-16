@@ -119,16 +119,24 @@ export default class Tree {
       
         const mapOverNext = (posInExpo, next) => {
           next.map(item => {
+            let inputs = {}
+            let inputErrors = {}
+
+            Object.keys(item.inputData).map(i => {
+              inputs[i] = item.inputData[i].value
+              if (item.inputData[i].error) {
+                inputErrors[i] = item.inputData[i].error
+              }
+            })
+
             const componentName = item.component.name
             posInExpo.push({
               component: {
                 title: item.component.title,
                 name: item.component.name
               },
-              inputs: Object.keys(item.inputData).reduce((acc, i) => {
-                acc[i] = item.inputData[i].value
-                return acc
-              }, {}),
+              inputs,
+              inputErrors,
               id: item.id,
               next: [],
             })
