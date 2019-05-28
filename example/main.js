@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDom from 'react-dom'
-import FlowMaker from '../flowmaker'
+import FlowMaker from '../dist/flowmaker'
 import '../dist/flowmaker.css'
 
 const domainCheck = (_, input) => {
@@ -52,7 +52,7 @@ const appLogic = {
           title: 'The server traffic is https',
           type: 'switch',
           default: true,
-        }, {
+        },{
           name: 'port',
           title: 'Web server port',
           type: 'number',

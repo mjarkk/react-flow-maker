@@ -112,9 +112,14 @@ export default class Input extends React.Component {
           :input.type == 'dropdown'?
             <div className="flow-dropdown">
               <div className="flow-select" onClick={() => this.setState({dropDownopen: !this.state.dropDownopen})}>
-                <div className="flow-optTitle">{this.state.dropDownSelected == -1 ? '...' : input.options[this.state.dropDownSelected].title}</div>
+                <div className="flow-optTitle">
+                  {this.state.dropDownSelected == -1 || !input.options || input.options.length == 0
+                    ? '...' 
+                    : input.options[this.state.dropDownSelected].title
+                  }
+                </div>
                 <div className="flow-icon">
-                  <DropDown/>
+                  {!input.options || input.options.length == 0 ? '' : <DropDown/>}
                 </div>
               </div>
               <div className={`flow-options flow-open${this.state.dropDownopen ? 'True' : 'False'}`}>

@@ -39,7 +39,7 @@ export default class Block extends React.Component {
       return
     }
 
-    this.props.Tree.addComponent(toAdd, this.props.graphInstance.props.data.path)
+    this.props.graphInstance.props.Tree.addComponent(toAdd, this.props.graphInstance.props.data.path)
   }
   render() {
     const data = this.props.graphInstance.props.data
