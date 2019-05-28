@@ -63,7 +63,7 @@ export default class FlowMaker extends React.Component {
               <GraphPart
                 Tree={this.Tree} 
                 Logic={this.Logic}
-                width={380 * this.Tree.maxDepth} 
+                width={380 * this.Tree.maxDepth}
                 itemWidth={380} 
                 key={i} 
                 data={item}

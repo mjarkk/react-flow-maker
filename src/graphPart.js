@@ -128,9 +128,6 @@ const GraphPartClass = class GraphPart extends React.Component {
           <Block 
             graphInstance={this} 
             graphParrentInstance={this.props.connectToInstance}
-            Tree={this.props.Tree} 
-            Logic={this.props.Logic} 
-            data={this.props.data}
           />
         </div>
         <div className="flow-next">

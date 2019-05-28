@@ -30,6 +30,8 @@ export default class Tree {
       })
     }
     loopOverNext(this.flow)
+
+    this.FlowMaker.forceUpdate()
   }
 
   flowItem(component, lastIds, currentDepth) {
@@ -53,7 +55,6 @@ export default class Tree {
 
     this.flow.push(this.flowItem(component, [], 0))
     this.caclMaxDepth()
-    this.FlowMaker.forceUpdate()
     this.export()
   }
 
@@ -67,7 +68,6 @@ export default class Tree {
     toAppendOn.next.push(this.flowItem(component, toAppendOn.path, toAppendOn.depth))
 
     this.caclMaxDepth()
-    this.FlowMaker.forceUpdate()
     this.export()
   }
 
@@ -88,18 +88,19 @@ export default class Tree {
 
   removeComponent(path) {
     const loopOverNext = next => {
+      next = Object.assign([], next)
       for (let i = 0; i < next.length; i++) {
         if (next[i].path === path) {
           next.splice(i, 1)
           break
         }
-        loopOverNext(next[i].next)
+        next[i].next = loopOverNext(next[i].next) 
       }
+      return next
     }
-    loopOverNext(this.flow)
+    this.flow = loopOverNext(this.flow)
 
     this.caclMaxDepth()
-    this.FlowMaker.forceUpdate()
     this.export()
   }
 
@@ -193,7 +194,6 @@ export default class Tree {
 
     this.flow = newFlow
     this.caclMaxDepth()
-    this.FlowMaker.forceUpdate()
   }
 
   updateInputValue(path, value, field, isAdvanced) {

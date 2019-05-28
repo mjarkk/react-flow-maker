@@ -16,12 +16,13 @@ export default class Block extends React.Component {
     this.remove = this.remove.bind(this)
   }
   remove() {
-    this.props.Tree.removeComponent(this.props.data.path)
+    this.props.graphInstance.props.Tree
+    .removeComponent(this.props.graphInstance.props.data.path)
   }
   add() {
 
-    if (this.props.data.component.next.length == 1) {
-      this.realAdd(this.props.data.component.next[0])
+    if (this.props.graphInstance.props.data.component.next.length == 1) {
+      this.realAdd(this.props.graphInstance.props.data.component.next[0])
       return
     }
 
@@ -38,10 +39,10 @@ export default class Block extends React.Component {
       return
     }
 
-    this.props.Tree.addComponent(toAdd, this.props.data.path)
+    this.props.Tree.addComponent(toAdd, this.props.graphInstance.props.data.path)
   }
   render() {
-    const data = this.props.data
+    const data = this.props.graphInstance.props.data
     if (!data) {
       return ''
     }
@@ -52,8 +53,16 @@ export default class Block extends React.Component {
     return (
       <div 
         className={`flow-fullBlock flow-hover${this.state.hover && !this.state.showAddOptions ? 'True' : 'False'}`}
-        onMouseOver={() => this.setState({hover: true})}
-        onMouseOut={() => this.setState({hover: false})}
+        onMouseOver={() => {
+          if (!this.state.hover) {
+            this.setState({hover: true})
+          }
+        }}
+        onMouseOut={() => {
+          if (this.state.hover) {
+            this.setState({hover: false})
+          }
+        }}
       >
         <div className="flow-side">
           <div className="flow-innerSide">
@@ -65,19 +74,23 @@ export default class Block extends React.Component {
         <div className="flow-middle">
           <div className="flow-title">{comp.title}<ToolTip transparrent={true} tip={comp.tooltip}/></div>
           <div className="flow-inputs">
-            {inputs.map((input, inputID) => {
-              const inputData = data.inputData[input.name]
-              return (
-                <Input
-                  key={inputID}
-                  input={input}
-                  initalVal={inputData ? inputData.value : undefined}
-                  onChange={inputData => {
-                    this.props.Tree.updateInputValue(data.path, inputData, inputID, false)
-                  }}
-                />
-              )
-            })}
+            {
+              inputs.map((input, inputID) => {
+                const inputData = data.inputData[input.name]
+                return (
+                  <Input
+                    refID={data.id}
+                    key={inputID}
+                    input={input}
+                    initalVal={inputData ? inputData.value : undefined}
+                    onChange={inputData => {
+                      this.props.graphInstance.props.Tree
+                      .updateInputValue(data.path, inputData, inputID, false)
+                    }}
+                  />
+                )
+              })
+            }
             {advancedInputs.length > 0?
               <div className="flow-showAdvanced">
                 <div 
@@ -105,7 +118,8 @@ export default class Block extends React.Component {
                   input={input}
                   initalVal={inputData ? inputData.value : undefined}
                   onChange={inputData => {
-                    this.props.Tree.updateInputValue(data.path, inputData, inputID, true)
+                    this.props.graphInstance.props.Tree
+                    .updateInputValue(data.path, inputData, inputID, true)
                   }}
                 />
               )
@@ -124,7 +138,7 @@ export default class Block extends React.Component {
                   onClick={() => this.realAdd({componentName})} 
                   className="flow-option" 
                   key={key}
-                >{this.props ? this.props.Logic.title(componentName) : componentName}</div>
+                >{this.props ? this.props.graphInstance.props.Logic.title(componentName) : componentName}</div>
               )}
             </div>
           </div>

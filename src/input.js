@@ -5,6 +5,7 @@ import ToolTip from './tooltip'
 export default class Input extends React.Component {
   constructor() {
     super()
+    this.refID = ""
     this.state = {
       value: '',
       error: '',
@@ -24,7 +25,8 @@ export default class Input extends React.Component {
   }
 
   updateDefaultVal() {
-    if (this.props.input && !this.state.isAfterInit) {
+    if ((this.props.input && !this.state.isAfterInit) || this.refID != this.props.refID) {
+      this.refID = this.props.refID
       const defaultInput = typeof this.props.initalVal != 'undefined' ? this.props.initalVal : this.props.input.default
 
       this.setState({

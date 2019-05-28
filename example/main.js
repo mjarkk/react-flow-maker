@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDom from 'react-dom'
-import FlowMaker from '../dist/flowmaker'
+import FlowMaker from '../flowmaker'
 import '../dist/flowmaker.css'
 
 const domainCheck = (_, input) => {
@@ -159,7 +159,7 @@ class App extends React.Component {
             logic={appLogic}
             onChange={data => {
               localStorage.setItem('flowMakerExample', JSON.stringify(data))
-              console.log(data)
+              // console.log(data)
             }}
             flow={JSON.parse(localStorage.getItem('flowMakerExample'))}
           />
