@@ -1,6 +1,6 @@
 {
   "name": "flowmaker",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "license": "MIT",
   "source": "flowmaker.js",
   "main": "dist/flowmaker.js",
