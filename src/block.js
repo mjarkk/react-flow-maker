@@ -1,6 +1,6 @@
 import React from 'react'
 import Input from './input'
-import {Delete, Add, DropDown, DropUp} from './icons'
+import {Delete, Add, DropDown, DropUp, Alert} from './icons'
 import ToolTip from './tooltip'
 
 export default class Block extends React.Component {
@@ -91,21 +91,27 @@ export default class Block extends React.Component {
                 )
               })
             }
-            {advancedInputs.length > 0?
-              <div className="flow-showAdvanced">
-                <div 
-                  className="flow-button"
-                  onClick={() => {
-                    this.setState({showAdvanced: !this.state.showAdvanced}, () => {
-                      if (this.props.graphParrentInstance) {
-                        this.props.graphParrentInstance.forceUpdate()
-                      } else if (this.props.graphInstance) {
-                        this.props.graphInstance.forceUpdate()
-                      }
-                    })
-                  }}
-                >Advanced {this.state.showAdvanced ? <DropUp/> : <DropDown/>}</div>
-              </div>
+            {advancedInputs.length > 0 ?
+              (() => {
+                const hasErrors = advancedInputs.filter(el => (data.inputData[el.name] && el.validation ? el.validation(undefined, data.inputData[el.name].value) : true) !== true).length > 0
+                const showHasErrors = hasErrors && !this.state.showAdvanced
+                return (
+                  <div className="flow-showAdvanced">
+                    <div 
+                      className={`flow-button error${showHasErrors ? 'True' : 'False'}`}
+                      onClick={() => {
+                        this.setState({showAdvanced: !this.state.showAdvanced}, () => {
+                          if (this.props.graphParrentInstance) {
+                            this.props.graphParrentInstance.forceUpdate()
+                          } else if (this.props.graphInstance) {
+                            this.props.graphInstance.forceUpdate()
+                          }
+                        })
+                      }}
+                    >{showHasErrors ? <Alert/> : ''}Advanced {this.state.showAdvanced ? <DropUp/> : <DropDown/>}</div>
+                  </div>
+                )
+              })()
             :''}
           </div>
           <div className={`flow-inputs flow-advancedInputs flow-show${this.state.showAdvanced ? 'True' : 'False'}`}>

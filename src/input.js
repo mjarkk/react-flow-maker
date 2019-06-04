@@ -90,17 +90,23 @@ export default class Input extends React.Component {
   render() {
     const error = this.state.error
     const input = this.props.input
+    let inputEl
     if (!input) {
       return (<div className="flow-input"></div>)
     }
 
+    const Label = () => <div className="flow-label" onClick={() => inputEl ? inputEl.focus() : input.type == 'switch' ? this.updateValue(!this.state.value) : ''}>
+        <span>{input.title}</span>
+        <ToolTip transparrent={true} tip={input.tooltip}/>
+      </div>
+
     return (
-      <div className={`flow-input flow-hasErr${error ? 'True' : 'False'}`}>
-        <div className="flow-label"><span>{input.title}</span><ToolTip transparrent={true} tip={input.tooltip}/></div>
+      <div className={`flow-input flow-input-type-${input.type} flow-hasErr${error ? 'True' : 'False'}`}>
+        {input.type != 'switch' ? <Label/> : ''}
         <div className="flow-actualInput">
           {(input.type == 'text' || input.type == 'number')?
             <div className="flow-text">
-              <input type={input.type} value={this.state.value} onChange={e => this.updateValue(e.target.value)}/>
+              <input ref={el => inputEl = el} type={input.type} value={this.state.value} onChange={e => this.updateValue(e.target.value)}/>
             </div>
           :input.type == 'switch'?
             <div className="flow-switch">
@@ -143,6 +149,7 @@ export default class Input extends React.Component {
             </div>
           :''}
         </div>
+        {input.type == 'switch' ? <Label/> : ''}
         {error?
           <div className="flow-error">{error}</div>
         :''}

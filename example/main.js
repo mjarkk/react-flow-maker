@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDom from 'react-dom'
-import FlowMaker from '../dist/flowmaker'
-import '../dist/flowmaker.css'
+import FlowMaker from '../flowmaker'
+import '../style.styl'
 
 const domainCheck = (_, input) => {
   const items = input.split('.')
