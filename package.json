@@ -16,7 +16,7 @@
     "url": "https://github.com/mjarkk/react-flow-maker",
     "type": "git"
   },
-  "version": "1.0.7",
+  "version": "1.0.8",
   "license": "MIT",
   "source": "flowmaker.js",
   "main": "dist/flowmaker.js",
