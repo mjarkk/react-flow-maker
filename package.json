@@ -1,5 +1,21 @@
 {
   "name": "flowmaker",
+  "description": "A react component for creating a flow",
+  "author": "Mark Kopenga <mkopenga@gmail.com>",
+  "keywords": [
+    "flow",
+    "drawing",
+    "flowmaker",
+    "react",
+    "maker",
+    "component"
+  ],
+  "homepage": "https://github.com/mjarkk/react-flow-maker",
+  "bugs": "https://github.com/mjarkk/react-flow-maker/issues",
+  "repository": {
+    "url": "https://github.com/mjarkk/react-flow-maker",
+    "type": "git"
+  },
   "version": "1.0.7",
   "license": "MIT",
   "source": "flowmaker.js",
