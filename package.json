@@ -16,10 +16,11 @@
     "url": "https://github.com/mjarkk/react-flow-maker",
     "type": "git"
   },
-  "version": "1.0.8",
+  "version": "1.0.9",
   "license": "MIT",
   "source": "flowmaker.js",
   "main": "dist/flowmaker.js",
+  "style": "dist/flowmaker.css",
   "module": "dist/flowmaker.mjs",
   "scripts": {
     "help": "microbundle --help",
