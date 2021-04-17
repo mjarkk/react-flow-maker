@@ -18,10 +18,12 @@
   },
   "version": "1.0.10",
   "license": "MIT",
-  "source": "flowmaker.js",
-  "main": "dist/flowmaker.js",
-  "style": "dist/flowmaker.css",
-  "module": "dist/flowmaker.mjs",
+  "source": "./flowmaker.js",
+  "main": "./dist/flowmaker.js",
+  "exports": "./dist/flowmaker.modern.js",
+  "style": "./dist/flowmaker.css",
+  "module": "./dist/flowmaker.mjs",
+  "unpkg": "dist/foo.umd.js",
   "scripts": {
     "help": "microbundle --help",
     "build": "microbundle --strict --compress --jsx React.createElement",
@@ -29,10 +31,10 @@
   },
   "dependencies": {
     "js-sha1": "^0.6.0",
-    "react": "^16.8.6",
+    "react": "^17.0.2",
     "stylus": "^0.54.5"
   },
   "devDependencies": {
-    "microbundle": "^0.11.0"
+    "microbundle": "^0.13.0"
   }
 }
