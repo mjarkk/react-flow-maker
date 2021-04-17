@@ -1,38 +1,55 @@
 # `flowmaker` - A react component for creating a flow
-This component makes it easy to create flows.  
+
+This component makes it easy to create flows.
 
 ![Screenshot](./screenshot/screenshot.png "Screenshot")
 
 ## Example project
+
 See [./example](./example)
 
 ## How to use
+
 ```sh
 npm i mjarkk/react-flow-maker
 ```
 
 ```jsx
-import FlowMaker from 'flowmaker'
-import 'flowmaker/dist/flowmaker.css'
+import FlowMaker from "flowmaker";
+import "flowmaker/dist/flowmaker.umd.min.css";
 // ...
 <FlowMaker
   logic={{
     introComponents: [],
     components: [],
   }}
-  onChange={data => localStorage.setItem('flowMakerExample', JSON.stringify(data))}
-  flow={JSON.parse(localStorage.getItem('flowMakerExample'))}
-/>
+  onChange={(data) =>
+    localStorage.setItem("flowMakerExample", JSON.stringify(data))
+  }
+  flow={JSON.parse(localStorage.getItem("flowMakerExample"))}
+/>;
+```
+
+### Example
+
+To run the example:
+
+```sh
+# Clone the repo
+npm i
+npm run example:watch
 ```
 
 #### `logic` **Required**
-Logic discribes the blocks and the inputs they have  
-It expects a object with the following properties.  
+
+Logic discribes the blocks and the inputs they have
+It expects a object with the following properties.
+
 ```js
 let logic = {
-  
+
   // These are the components that can be created from the 'Start Here' button
-  // The names need to match the names of the components 
+  // The names need to match the names of the components
   introComponents: [
     'hello-world'
   ]
@@ -64,7 +81,7 @@ let logic = {
           default: 1234,
           tooltip: 'Pssst the special number is 4321',
           validation: (_, input) => {
-            return Number(input) == 4321 
+            return Number(input) == 4321
               ? true
               : 'That\'s not the special number'
           },
@@ -88,7 +105,9 @@ let logic = {
 ```
 
 #### `onChange`
+
 This returns a the flow data from when a user changes something
 
 #### `flow`
+
 Here you can add a flow to show when the drawing gets mounted, handy if you remove the component from the screen or when the drawing needs to be presistant.

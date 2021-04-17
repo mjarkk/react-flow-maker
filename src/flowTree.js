@@ -1,12 +1,12 @@
 import utils from './utils'
 
 export default class Tree {
-  constructor(Logic, FlowMaker) {
+  constructor(Logic, forceUpdate) {
     this.Logic = Logic
-    this.FlowMaker = FlowMaker
+    this.forceUpdate = forceUpdate
     this.maxDepth = 0
     this.flow = []
-    
+
     this.exportBuzzy = false
     this.reExport = false
 
@@ -31,7 +31,7 @@ export default class Tree {
     }
     loopOverNext(this.flow)
 
-    this.FlowMaker.forceUpdate()
+    this.forceUpdate()
   }
 
   flowItem(component, lastIds, currentDepth) {
@@ -94,7 +94,7 @@ export default class Tree {
           next.splice(i, 1)
           break
         }
-        next[i].next = loopOverNext(next[i].next) 
+        next[i].next = loopOverNext(next[i].next)
       }
       return next
     }
@@ -107,7 +107,7 @@ export default class Tree {
   export() {
     if (!this.exportBuzzy) {
       this.exportBuzzy = true
-      
+
       setTimeout(() => {
         if (this.reExport) {
           this.exportBuzzy = false
@@ -117,7 +117,7 @@ export default class Tree {
         }
 
         let toExport = []
-      
+
         const mapOverNext = (posInExpo, next) => {
           next.map(item => {
             let inputs = {}
@@ -141,9 +141,9 @@ export default class Tree {
               id: item.id,
               next: [],
             })
-            mapOverNext(posInExpo[posInExpo.length-1].next, item.next)
+            mapOverNext(posInExpo[posInExpo.length - 1].next, item.next)
           })
-        } 
+        }
 
         mapOverNext(toExport, this.flow)
 
@@ -156,7 +156,7 @@ export default class Tree {
           if (this.reExport) {
             this.reExport = false
             this.export()
-          }  
+          }
         }, 30)
       }, 50)
     } else {
@@ -174,7 +174,7 @@ export default class Tree {
     const mapOverFlow = (arr, mapTo, lastIds) => {
       arr.map(item => {
         let toPush = this.flowItem(this.Logic.conf.components[item.component.name], lastIds, lastIds.length)
-        
+
         toPush.id = item.id
         toPush.inputData = Object.keys(item.inputs).reduce((acc, i) => {
           acc[i] = {
@@ -183,11 +183,11 @@ export default class Tree {
           }
           return acc
         }, {})
-        toPush.path.splice(-1,1)
+        toPush.path.splice(-1, 1)
         toPush.path.push(item.id)
         mapTo.push(toPush)
 
-        mapOverFlow(item.next, mapTo[mapTo.length-1].next, [...lastIds, item.id])
+        mapOverFlow(item.next, mapTo[mapTo.length - 1].next, [...lastIds, item.id])
       })
     }
     mapOverFlow(flow, newFlow, [])
@@ -215,4 +215,4 @@ export default class Tree {
 
     this.export()
   }
-} 
+}

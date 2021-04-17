@@ -31,7 +31,7 @@ export default class Logic {
             warn(`logic.components[${i}] does not have a name or title field, this component will be ignored`)
             return
           }
-          
+
           const alreadyUsedNames = []
 
           let toInsert = {
@@ -54,7 +54,7 @@ export default class Logic {
                 warn(`logic.components[${i}].inputs[${inputID}].validation must be undefined or a function`)
                 return
               }
-              
+
               if (typeof input.tooltip != 'string' && input.tooltip !== undefined) {
                 warn(`logic.components[${i}].inputs[${inputID}].tooltip must be a string or not undefined`)
                 return
@@ -143,7 +143,7 @@ export default class Logic {
           })
         })
       } else {
-        warn(`logic.components is not an array`) 
+        warn(`logic.components is not an array`)
       }
     }
 
@@ -153,17 +153,17 @@ export default class Logic {
           if (conf.components[name]) {
             conf.introComponents.push(name)
           } else {
-            warn(`logic.introComponents['${name}'] is not a known component`) 
+            warn(`logic.introComponents['${name}'] is not a known component`)
           }
         })
       } else if (typeof input.introComponents == 'string') {
         if (conf.components[input.introComponents]) {
           conf.introComponents.push(input.introComponents)
         } else {
-          warn(`logic.introComponents = '${name}' is not a known component`) 
+          warn(`logic.introComponents = '${name}' is not a known component`)
         }
       } else {
-        warn(`logic.introComponents is not an array or string`) 
+        warn(`logic.introComponents is not an array or string`)
       }
     }
 

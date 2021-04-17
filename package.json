@@ -18,23 +18,36 @@
   },
   "version": "1.0.11",
   "license": "MIT",
-  "source": "./flowmaker.js",
-  "main": "./dist/flowmaker.js",
-  "exports": "./dist/flowmaker.modern.js",
-  "style": "./dist/flowmaker.css",
-  "module": "./dist/flowmaker.mjs",
-  "unpkg": "dist/foo.umd.js",
+  "main": "dist/flowmaker.cjs.js",
+  "browser": "dist/flowmaker.umd.js",
+  "style": "dist/flowmaker.umd.min.css",
+  "module": "dist/flowmaker.es.js",
   "scripts": {
-    "help": "microbundle --help",
-    "build": "microbundle --strict --compress --jsx React.createElement",
-    "watch": "microbundle --strict --watch --jsx React.createElement"
-  },
-  "dependencies": {
-    "js-sha1": "^0.6.0",
-    "react": "^17.0.2",
-    "stylus": "^0.54.5"
+    "build": "rollup -c --environment BUILD:production",
+    "watch": "rollup -c -w",
+    "example:watch": "parcel serve example/index.html"
   },
   "devDependencies": {
-    "microbundle": "^0.13.0"
-  }
+    "@babel/core": "^7.13.15",
+    "@babel/preset-react": "^7.13.13",
+    "@parcel/transformer-stylus": "^2.0.0-beta.2",
+    "@rollup/plugin-babel": "^5.3.0",
+    "parcel": "^2.0.0-beta.2",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "rollup": "^2.45.2",
+    "rollup-plugin-css-porter": "^1.0.2",
+    "rollup-plugin-stylus-compiler": "^1.0.1",
+    "rollup-plugin-terser": "^7.0.2",
+    "stylus": "^0.54.8"
+  },
+  "dependencies": {
+    "js-sha1": "^0.6.0"
+  },
+  "peerDependencies": {
+    "react": ">= 17.x"
+  },
+  "files": [
+    "dist"
+  ]
 }

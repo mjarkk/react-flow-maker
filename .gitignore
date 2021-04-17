@@ -2,3 +2,5 @@ example/.cache
 example/dist
 node_modules
 yarn-error.log
+.parcel-cache
+dist/index.*
