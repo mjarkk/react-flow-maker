@@ -9,64 +9,89 @@ const GraphPart = function ({
   Logic,
   Tree,
   data,
+  reRenderFullTree,
 }) {
-  const [state, setState] = useState({
-    element: undefined,
-    lastParentPosition: 0,
+  const [connectionLine, setConnectionLine] = useState({
+    parentLineHeight: 0,
+    parentLineToTop: 0,
+    type: '',
   })
 
   const [_, setForceUpdateState] = useState(false)
   const forceUpdate = () => setForceUpdateState(v => !v)
 
-  let mounted = useRef(true)
+  const blockContainer = useRef(null)
 
-  function watchParent() {
-    if (mounted.current) {
-      let parentEl = connectTo
-      let parent = undefined
-      if (parentEl) {
-        parent = parentEl.getBoundingClientRect()
-        if (parent.top != state.lastParentPosition) {
-          setState(v => ({
-            ...v,
-            lastParentPosition: parent.top
-          }))
-        }
+  function getConnectionLine() {
+    let parentLineHeight = 0
+    let parentLineToTop = 0
+    let type = ''
+
+    if (connectTo && blockContainer.current) {
+      let parent = connectTo.getBoundingClientRect()
+      let child = blockContainer.current.getBoundingClientRect()
+      let spaceBetween = (parent.y + (parent.height / 2)) - (child.y + (child.height / 2))
+
+      if (spaceBetween == 0) {
+        parentLineHeight = 20
+        parentLineToTop = 10
+        type = 'straight'
+      } else if (spaceBetween < 0) {
+        parentLineHeight = ((-spaceBetween) + 20)
+        parentLineToTop = parentLineHeight - 10
+        type = 'bottomToTop'
+      } else {
+        parentLineHeight = spaceBetween + 20
+        parentLineToTop = 10
+        type = 'topToBottom'
       }
-      setTimeout(() => {
-        watchParent()
-      }, 800)
+    }
+
+    return {
+      parentLineHeight,
+      parentLineToTop,
+      type,
+    }
+  }
+
+  const {
+    parentLineHeight,
+    parentLineToTop,
+    type,
+  } = getConnectionLine()
+
+  function checkConnectionLine() {
+    if (!connectTo || !blockContainer.current) return
+
+    const {
+      parentLineHeight,
+      parentLineToTop,
+      type,
+    } = getConnectionLine()
+
+    if (
+      parentLineHeight != connectionLine.parentLineHeight
+      || parentLineToTop != connectionLine.parentLineToTop
+      || type != connectionLine.type
+    ) {
+      console.log('ok boomer lets update this shit')
+      setConnectionLine({
+        parentLineHeight,
+        parentLineToTop,
+        type,
+      })
     }
   }
 
   useEffect(() => {
-    watchParent()
-    return () => mounted.current = false
-  }, [])
+    const checkPositionsLoop = setInterval(() => checkConnectionLine(), 700);
+    return () => clearInterval(checkPositionsLoop);
+  }, [connectionLine, connectTo, blockContainer])
 
-  let parentLineHeight = 0
-  let parentLineToTop = 0
-  let type = ''
+  useEffect(() => {
+    if (connectTo) forceUpdate()
+  }, [connectTo])
 
-  if (connectTo && state.element) {
-    let parent = connectTo.getBoundingClientRect()
-    let child = state.element.getBoundingClientRect()
-    let spaceBetween = (parent.y + (parent.height / 2)) - (child.y + (child.height / 2))
-
-    if (spaceBetween == 0) {
-      parentLineHeight = 20
-      parentLineToTop = 10
-      type = 'straight'
-    } else if (spaceBetween < 0) {
-      parentLineHeight = ((-spaceBetween) + 20)
-      parentLineToTop = parentLineHeight - 10
-      type = 'bottomToTop'
-    } else {
-      parentLineHeight = spaceBetween + 20
-      parentLineToTop = 10
-      type = 'topToBottom'
-    }
-  }
   return (
     <div className="flow-graphPart" style={{ width }}>
       {parentLineHeight && parentLineToTop && type ?
@@ -101,32 +126,7 @@ const GraphPart = function ({
         </div>
         : ''}
       <div
-        ref={element => {
-          let parentEl = connectTo
-          let parent = undefined
-          if (parentEl) {
-            parent = parentEl.getBoundingClientRect()
-          }
-
-          if (typeof state.element == 'object') {
-            if (!parent || parent.top == state.lastParentPosition) {
-              return
-            }
-          }
-
-          let toUpdate = {
-            element,
-          }
-
-          if (parent) {
-            toUpdate.lastParentPosition = parent.top
-          }
-
-          setState(v => ({
-            ...v,
-            ...toUpdate,
-          }))
-        }}
+        ref={blockContainer}
         className="flow-graph"
         style={{ minWidth: itemWidth }}
       >
@@ -136,6 +136,7 @@ const GraphPart = function ({
           data={data}
           graphInstanceForceUpdate={forceUpdate}
           graphParrentInstanceForceUpdate={forceUpdateParent}
+          reRenderFullTree={reRenderFullTree}
         />
       </div>
       <div className="flow-next">
@@ -143,12 +144,13 @@ const GraphPart = function ({
           <GraphPart
             Tree={Tree}
             Logic={Logic}
-            connectTo={state.element}
+            connectTo={blockContainer.current}
             forceUpdateParent={forceUpdate}
             width={width - itemWidth}
             itemWidth={itemWidth}
             key={i}
             data={item}
+            reRenderFullTree={reRenderFullTree}
           />
         )}
       </div>

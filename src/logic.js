@@ -12,6 +12,71 @@ export default class Logic {
   get() {
     return this.conf
   }
+
+  parseInput(input, warn = err => console.log('logic parse warning:', err)) {
+    let res = {
+      name: input.name,
+      title: input.title,
+      type: input.type,
+      validation: input.validation,
+      tooltip: input.tooltip,
+      default: input.default,
+    }
+
+    switch (input.type) {
+      case 'text':
+        if (typeof input.default != 'string' && input.default !== undefined) {
+          warn(`.inputs[${input.name}].default must be a string or undefined, using default empty string`)
+          res.default = ''
+        }
+        if (input.default == undefined) {
+          res.default = ''
+        }
+        break;
+      case 'number':
+        if (typeof input.default != 'number' && input.default !== undefined) {
+          warn(`.inputs[${input.name}].default must be a number or undefined, using default 0`)
+          res.default = 0
+        }
+        if (input.default == undefined) {
+          res.default = 0
+        }
+        break;
+      case 'switch':
+        if (typeof input.default != 'boolean' && input.default !== undefined) {
+          warn(`.inputs[${input.name}].default must be a boolean or undefined, using default empty string`)
+          res.default = false
+        }
+        if (input.default == undefined) {
+          res.default = false
+        }
+        break;
+      case 'dropdown':
+        if (!Array.isArray(input.options)) {
+          warn(`.inputs[${input.name}].options is not defined or is not an array, skipping this item`)
+          return
+        } else {
+          res['options'] = input.options.map((option, optionID) => {
+            if (typeof option.title != 'string' || typeof option.value != 'string' || (typeof option.tooltip != 'string' && option.tooltip != undefined)) {
+              warn(`.inputs[${input.name}].options[${optionID}] does not have the correct items (title string, value string, tooltip string), skipping this item`)
+              return
+            }
+            return {
+              title: option.title,
+              tooltip: option.tooltip,
+              value: option.value,
+            }
+          }).filter(item => item)
+        }
+        break;
+      default:
+        warn(`.inputs[${input.name}].type = '${input.type}' is not valid, this input will be ignored`)
+        return
+    }
+
+    return res;
+  }
+
   parseNewLogic(input) {
     const outErrs = []
     const warn = (...data) => {
@@ -70,68 +135,11 @@ export default class Logic {
                 return
               }
 
-              let toReturn = {
-                name: input.name,
-                title: input.title,
-                type: input.type,
-                validation: input.validation,
-                tooltip: input.tooltip,
-                default: input.default,
-              }
-
-              switch (input.type) {
-                case 'text':
-                  if (typeof input.default != 'string' && input.default !== undefined) {
-                    warn(`logic.components[${i}].inputs[${inputID}].default must be a string or undefined, using default empty string`)
-                    toReturn.default = ''
-                  }
-                  if (input.default == undefined) {
-                    toReturn.default = ''
-                  }
-                  break;
-                case 'number':
-                  if (typeof input.default != 'number' && input.default !== undefined) {
-                    warn(`logic.components[${i}].inputs[${inputID}].default must be a number or undefined, using default 0`)
-                    toReturn.default = 0
-                  }
-                  if (input.default == undefined) {
-                    toReturn.default = 0
-                  }
-                  break;
-                case 'switch':
-                  if (typeof input.default != 'boolean' && input.default !== undefined) {
-                    warn(`logic.components[${i}].inputs[${inputID}].default must be a boolean or undefined, using default empty string`)
-                    toReturn.default = false
-                  }
-                  if (input.default == undefined) {
-                    toReturn.default = false
-                  }
-                  break;
-                case 'dropdown':
-                  if (!Array.isArray(input.options)) {
-                    warn(`logic.components[${i}].inputs[${inputID}].options is not defined or is not an array, skipping this item`)
-                    return
-                  } else {
-                    toReturn['options'] = input.options.map((option, optionID) => {
-                      if (typeof option.title != 'string' || typeof option.value != 'string' || (typeof option.tooltip != 'string' && option.tooltip != undefined)) {
-                        warn(`logic.components[${i}].inputs[${inputID}].options[${optionID}] does not have the correct items (title string, value string, tooltip string), skipping this item`)
-                        return
-                      }
-                      return {
-                        title: option.title,
-                        tooltip: option.tooltip,
-                        value: option.value,
-                      }
-                    }).filter(item => item)
-                  }
-                  break;
-                default:
-                  warn(`logic.components[${i}].inputs[${inputID}].type = '${input.type}' is not valid, this input will be ignored`)
-                  return
-              }
+              const toAdd = this.parseInput(input, err => warn(`logic.components[${i}]${err}`))
+              if (!toAdd) return;
 
               alreadyUsedNames.push(input.name)
-              toInsert[input.advanced ? 'advancedInputs' : 'inputs'].push(toReturn)
+              toInsert[input.advanced ? 'advancedInputs' : 'inputs'].push(toAdd)
               return
             })
           }

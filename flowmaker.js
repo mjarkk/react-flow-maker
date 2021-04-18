@@ -44,6 +44,17 @@ export default function FlowMaker({ flow, logic, onChange }) {
     afterMount()
   }, [settings])
 
+  function forceReRender() {
+    setTimeout(() => {
+      window.requestAnimationFrame(() => {
+        forceUpdate()
+        setTimeout(() => {
+          forceUpdate()
+        }, 100)
+      })
+    }, 1);
+  }
+
   return (
     <div className="flowMakerComp">
       <div className="flowMakerContainer" style={{ minWidth: `${250 + (380 * Tree.maxDepth)}px` }}>
@@ -70,6 +81,7 @@ export default function FlowMaker({ flow, logic, onChange }) {
               itemWidth={380}
               key={i}
               data={item}
+              reRenderFullTree={forceReRender}
             />
           )}
         </div>

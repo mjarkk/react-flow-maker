@@ -3,17 +3,28 @@ import Input from './input'
 import { Delete, Add, DropDown, DropUp, Alert } from './icons'
 import ToolTip from './tooltip'
 
-export default function Block({ Tree, Logic, data, graphInstanceForceUpdate, graphParrentInstanceForceUpdate }) {
+export default function Block({
+  Tree,
+  Logic,
+  data,
+  graphInstanceForceUpdate,
+  graphParrentInstanceForceUpdate,
+  reRenderFullTree,
+}) {
   let [state, setState] = useState({
     hover: false,
     showAddOptions: false,
   });
 
   const [showAdvanced, setShowAdvanced] = useState(false)
+  const [_, setForceUpdateState] = useState(false)
+  const forceUpdate = () => setForceUpdateState(v => !v)
 
   function remove() {
     Tree.removeComponent(data.path)
+    reRenderFullTree()
   }
+
   function realAdd(toAdd) {
     setState(v => ({
       ...v,
@@ -25,8 +36,10 @@ export default function Block({ Tree, Logic, data, graphInstanceForceUpdate, gra
     }
 
     Tree.addComponent(toAdd, data.path)
+    reRenderFullTree()
   }
-  function add() {
+
+  function potentialAdd() {
     if (data.component.next.length == 1) {
       realAdd(data.component.next[0])
       return
@@ -54,13 +67,16 @@ export default function Block({ Tree, Logic, data, graphInstanceForceUpdate, gra
 
   if (comp.getInputs) {
     const args = Tree.itemToExport(data)
-    let res = comp.getInputs(args)
-    if (Array.isArray(res)) {
+    let newInputs = comp.getInputs(args)
+    if (Array.isArray(newInputs)) {
       inputs = [];
       advancedInputs = [];
-      res.map(component => {
-        if (component.advanced) advancedInputs.push(component)
-        else inputs.push(component)
+      newInputs.map(input => {
+        const parsedInput = Logic.parseInput(input)
+        if (parsedInput) {
+          if (input.advanced) advancedInputs.push(parsedInput)
+          else inputs.push(parsedInput)
+        }
       })
     }
   }
@@ -98,9 +114,10 @@ export default function Block({ Tree, Logic, data, graphInstanceForceUpdate, gra
                   key={inputID}
                   input={input}
                   initalVal={inputData ? inputData.value : undefined}
-                  onChange={inputData =>
+                  onChange={inputData => {
                     Tree.updateInputValue(data.path, inputData, input.name)
-                  }
+                    forceUpdate()
+                  }}
                 />
               )
             })
@@ -129,7 +146,10 @@ export default function Block({ Tree, Logic, data, graphInstanceForceUpdate, gra
                 key={inputID}
                 input={input}
                 initalVal={inputData ? inputData.value : undefined}
-                onChange={inputData => Tree.updateInputValue(data.path, inputData, input.name)}
+                onChange={inputData => {
+                  Tree.updateInputValue(data.path, inputData, input.name)
+                  forceUpdate()
+                }}
               />
             )
           })}
@@ -155,7 +175,7 @@ export default function Block({ Tree, Logic, data, graphInstanceForceUpdate, gra
       {comp.next.length > 0 ?
         <div className="flow-side">
           <div className="flow-innerSide">
-            <div className="flow-round" onClick={() => add()}>
+            <div className="flow-round" onClick={() => potentialAdd()}>
               <Add />
             </div>
           </div>
