@@ -74,7 +74,6 @@ const GraphPart = function ({
       || parentLineToTop != connectionLine.parentLineToTop
       || type != connectionLine.type
     ) {
-      console.log('ok boomer lets update this shit')
       setConnectionLine({
         parentLineHeight,
         parentLineToTop,
