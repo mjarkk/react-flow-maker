@@ -106,12 +106,12 @@ export default function Block({
         <div className="flow-title">{comp.title}<ToolTip transparrent={true} tip={comp.tooltip} /></div>
         <div className="flow-inputs">
           {
-            inputs.map((input, inputID) => {
+            inputs.map(input => {
               const inputData = data.inputData[input.name]
               return (
                 <Input
                   refID={data.id}
-                  key={inputID}
+                  key={input.name}
                   input={input}
                   initalVal={inputData ? inputData.value : undefined}
                   onChange={inputData => {

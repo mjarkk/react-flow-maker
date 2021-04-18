@@ -21,11 +21,11 @@ export default function Input({
     dropDownopen: false,
   })
   const [isAfterInit, setIsAfterInit] = useState(false)
-  const [value, setValue] = useState('')
+  const [value, setValue] = useState(undefined)
   const [error, setError] = useState('')
 
   useEffect(() => {
-    if (typeof input.validation == 'function') {
+    if (typeof input.validation == 'function' && value !== undefined) {
       let error = input.validation(undefined, value)
       if (typeof error != 'string') {
         error = ''
@@ -35,7 +35,7 @@ export default function Input({
   }, [value])
 
   useEffect(() => {
-    if (onChange) {
+    if (onChange && value !== undefined) {
       onChange({
         error,
         value,
@@ -46,7 +46,15 @@ export default function Input({
   function updateDefaultVal() {
     if ((input && !isAfterInit) || internalRefID.val != refID) {
       internalRefID.val = refID
-      const defaultInput = typeof initalVal != 'undefined' ? initalVal : input.default
+
+      let defaultInput = typeof initalVal != 'undefined' ? initalVal : input.default
+      if (defaultInput === undefined) {
+        if (input.type == 'text' || input.type == 'number') {
+          defaultInput = ''
+        } else if (input.type == 'switch') {
+          defaultInput = false;
+        }
+      }
       setValue(defaultInput)
 
       if (input.type == 'dropdown' && state.dropDownSelected == -1) {
@@ -96,7 +104,7 @@ export default function Input({
     <div className={`flow-input flow-input-type-${input.type} flow-hasErr${error ? 'True' : 'False'}`}>
       {input.type != 'switch' ? <Label /> : ''}
       <div className="flow-actualInput">
-        {(input.type == 'text' || input.type == 'number') ?
+        {(value !== undefined && (input.type == 'text' || input.type == 'number')) ?
           <div className="flow-text">
             <input
               ref={el => inputEl = el}
@@ -105,7 +113,7 @@ export default function Input({
               onChange={e => setValue(e.target.value)}
             />
           </div>
-          : input.type == 'switch' ?
+          : (value !== undefined && input.type == 'switch') ?
             <div className="flow-switch">
               <div
                 onClick={() => setValue(!value)}
