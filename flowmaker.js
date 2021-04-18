@@ -21,9 +21,7 @@ export default function FlowMaker({ flow, logic, onChange }) {
 
   const [lastlogicHash] = useState(new LastLogicHash)
 
-  const [state, setState] = useState({
-    settings: Logic.get(),
-  })
+  const [settings, setSettings] = useState(Logic.get())
 
   function afterMount() {
     if (typeof onChange == 'function')
@@ -36,25 +34,27 @@ export default function FlowMaker({ flow, logic, onChange }) {
     const newHash = sha1(logic)
     if (newHash != lastlogicHash.val) {
       lastlogicHash.val = newHash
-      setState({
-        settings: Logic.parseNewLogic(logic)
-      }, () => afterMount())
+      setSettings(Logic.parseNewLogic(logic))
     } else {
       afterMount()
     }
   }, [])
 
+  useEffect(() => {
+    afterMount()
+  }, [settings])
+
   return (
     <div className="flowMakerComp">
       <div className="flowMakerContainer" style={{ minWidth: `${250 + (380 * Tree.maxDepth)}px` }}>
         <div className="flow-row" style={{ minWidth: '250px' }}>
-          {state.settings.introComponents.length > 0 ?
+          {settings.introComponents.length > 0 ?
             <div className="flow-startPoint">
               <h3>Start here</h3>
               <AddButton
                 Tree={Tree}
                 Logic={Logic}
-                options={state.settings.introComponents}
+                options={settings.introComponents}
                 out={componentName => Tree.startFlow(componentName)}
               />
             </div>

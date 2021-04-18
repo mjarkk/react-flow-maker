@@ -104,6 +104,29 @@ export default class Tree {
     this.export()
   }
 
+  itemToExport(item) {
+    let inputs = {}
+    let inputErrors = {}
+
+    Object.keys(item.inputData).map(i => {
+      inputs[i] = item.inputData[i].value
+      if (item.inputData[i].error) {
+        inputErrors[i] = item.inputData[i].error
+      }
+    })
+
+    return {
+      component: {
+        title: item.component.title,
+        name: item.component.name
+      },
+      inputs,
+      inputErrors,
+      id: item.id,
+      next: [],
+    }
+  }
+
   export() {
     if (!this.exportBuzzy) {
       this.exportBuzzy = true
@@ -120,27 +143,7 @@ export default class Tree {
 
         const mapOverNext = (posInExpo, next) => {
           next.map(item => {
-            let inputs = {}
-            let inputErrors = {}
-
-            Object.keys(item.inputData).map(i => {
-              inputs[i] = item.inputData[i].value
-              if (item.inputData[i].error) {
-                inputErrors[i] = item.inputData[i].error
-              }
-            })
-
-            const componentName = item.component.name
-            posInExpo.push({
-              component: {
-                title: item.component.title,
-                name: item.component.name
-              },
-              inputs,
-              inputErrors,
-              id: item.id,
-              next: [],
-            })
+            posInExpo.push(this.itemToExport(item))
             mapOverNext(posInExpo[posInExpo.length - 1].next, item.next)
           })
         }
@@ -196,23 +199,11 @@ export default class Tree {
     this.caclMaxDepth()
   }
 
-  updateInputValue(path, value, field, isAdvanced) {
+  updateInputValue(path, value, field) {
     let component = this.findPath(path)
-
     if (component) {
-      if (!isAdvanced) {
-        if (component.component.inputs && component.component.inputs[field]) {
-          const input = component.component.inputs[field]
-          component.inputData[input.name] = value
-        }
-      } else {
-        if (component.component.advancedInputs && component.component.advancedInputs[field]) {
-          const input = component.component.advancedInputs[field]
-          component.inputData[input.name] = value
-        }
-      }
+      component.inputData[field] = value
     }
-
     this.export()
   }
 }

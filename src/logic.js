@@ -40,7 +40,12 @@ export default class Logic {
             next: component.next ? Array.isArray(component.next) ? component.next : [component.next] : [],
             tooltip: component.tooltip,
             inputs: [],
+            getInputs: undefined,
             advancedInputs: [],
+          }
+
+          if (component.getInputs) {
+            toInsert.getInputs = component.getInputs
           }
 
           if (Array.isArray(component.inputs)) {

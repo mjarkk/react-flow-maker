@@ -72,14 +72,6 @@ const appLogic = {
           }
         ]
       },
-      advancedInputs: [
-        {
-          name: 'testConnection',
-          title: 'Test server connection',
-          tooltip: 'Test the connection with the server',
-          type: 'switch',
-        }
-      ],
       next: 'backend'
     }, {
       name: 'backend',

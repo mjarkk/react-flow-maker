@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import Block from './block'
 
 const GraphPart = function ({
   connectTo,
-  connectToInstance,
+  forceUpdateParent,
   itemWidth,
   width,
   Logic,
@@ -15,20 +15,22 @@ const GraphPart = function ({
     lastParentPosition: 0,
   })
 
-  const [_, forceUpdate] = useState(false)
+  const [_, setForceUpdateState] = useState(false)
+  const forceUpdate = () => setForceUpdateState(v => !v)
 
-  let mounted = false
+  let mounted = useRef(true)
 
   function watchParent() {
-    if (mounted) {
+    if (mounted.current) {
       let parentEl = connectTo
       let parent = undefined
       if (parentEl) {
         parent = parentEl.getBoundingClientRect()
         if (parent.top != state.lastParentPosition) {
-          setState({
+          setState(v => ({
+            ...v,
             lastParentPosition: parent.top
-          })
+          }))
         }
       }
       setTimeout(() => {
@@ -38,9 +40,8 @@ const GraphPart = function ({
   }
 
   useEffect(() => {
-    mounted = true
     watchParent()
-    return () => mounted = false
+    return () => mounted.current = false
   }, [])
 
   let parentLineHeight = 0
@@ -121,7 +122,10 @@ const GraphPart = function ({
             toUpdate.lastParentPosition = parent.top
           }
 
-          setState(toUpdate)
+          setState(v => ({
+            ...v,
+            ...toUpdate,
+          }))
         }}
         className="flow-graph"
         style={{ minWidth: itemWidth }}
@@ -130,8 +134,8 @@ const GraphPart = function ({
           Tree={Tree}
           Logic={Logic}
           data={data}
-          graphInstanceForceUpdate={forceUpdate(v => !v)}
-          graphParrentInstance={connectToInstance}
+          graphInstanceForceUpdate={forceUpdate}
+          graphParrentInstanceForceUpdate={forceUpdateParent}
         />
       </div>
       <div className="flow-next">
@@ -140,7 +144,7 @@ const GraphPart = function ({
             Tree={Tree}
             Logic={Logic}
             connectTo={state.element}
-            connectToInstance={this}
+            forceUpdateParent={forceUpdate}
             width={width - itemWidth}
             itemWidth={itemWidth}
             key={i}

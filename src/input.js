@@ -15,72 +15,55 @@ export default function Input({
   refID,
   initalVal,
 }) {
-  let [internalRefID] = useState(new RefID)
-  let [state, setState] = useState({
-    value: '',
-    error: '',
+  const [internalRefID] = useState(new RefID)
+  const [state, setState] = useState({
     dropDownSelected: -1,
-    isAfterInit: false,
     dropDownopen: false,
   })
+  const [isAfterInit, setIsAfterInit] = useState(false)
+  const [value, setValue] = useState('')
+  const [error, setError] = useState('')
 
-  function tellParent() {
-    if (onChange) {
-      onChange({
-        error: state.error,
-        value: state.value,
-      })
-    }
-  }
-
-  function validate(newVal, cb) {
+  useEffect(() => {
     if (typeof input.validation == 'function') {
-      let error = input.validation(undefined, newVal)
+      let error = input.validation(undefined, value)
       if (typeof error != 'string') {
         error = ''
       }
-      setState({
-        error
-      }, cb)
+      setError(error)
     }
-    if (typeof cb == 'function') {
-      cb()
+  }, [value])
+
+  useEffect(() => {
+    if (onChange) {
+      onChange({
+        error,
+        value,
+      })
     }
-  }
+  }, [value, error])
 
   function updateDefaultVal() {
-    if ((input && !state.isAfterInit) || internalRefID.val != refID) {
+    if ((input && !isAfterInit) || internalRefID.val != refID) {
       internalRefID.val = refID
       const defaultInput = typeof initalVal != 'undefined' ? initalVal : input.default
+      setValue(defaultInput)
 
-      setState({
-        value: defaultInput,
-        isAfterInit: true,
-      }, () => {
-        validate(defaultInput, () => {
-          if (input.type == 'dropdown' && state.dropDownSelected == -1) {
-            let dropDownSelected = 0
-            input.options.map((option, id) => {
-              if (option.value == defaultInput) {
-                dropDownSelected = id
-              }
-            })
-            setState({
-              dropDownSelected
-            })
+      if (input.type == 'dropdown' && state.dropDownSelected == -1) {
+        let dropDownSelected = 0
+        input.options.map((option, id) => {
+          if (option.value == defaultInput) {
+            dropDownSelected = id
           }
-          tellParent()
         })
-      })
-    }
-  }
+        setState(v => ({
+          ...v,
+          dropDownSelected
+        }))
+      }
 
-  function updateValue(newVal) {
-    setState({ value: newVal }, () => {
-      validate(newVal, () => {
-        tellParent()
-      })
-    })
+      setIsAfterInit(true)
+    }
   }
 
   useEffect(() => updateDefaultVal(), [])
@@ -88,22 +71,26 @@ export default function Input({
   useEffect(() => {
     updateDefaultVal()
     if (hiddenDropdown && state.dropDownopen) {
-      setState({
+      setState(v => ({
+        ...v,
         dropDownopen: false,
-      })
+      }))
     }
   }, [hiddenDropdown])
 
-  const error = state.error
   let inputEl
   if (!input) {
     return (<div className="flow-input"></div>)
   }
 
-  const Label = () => <div className="flow-label" onClick={() => inputEl ? inputEl.focus() : input.type == 'switch' ? updateValue(!state.value) : ''}>
-    <span>{input.title}</span>
-    <ToolTip transparrent={true} tip={input.tooltip} />
-  </div>
+  const Label = () =>
+    <div
+      className="flow-label"
+      onClick={() => inputEl ? inputEl.focus() : input.type == 'switch' ? setValue(!value) : ''}
+    >
+      <span>{input.title}</span>
+      <ToolTip transparrent={true} tip={input.tooltip} />
+    </div>
 
   return (
     <div className={`flow-input flow-input-type-${input.type} flow-hasErr${error ? 'True' : 'False'}`}>
@@ -111,18 +98,23 @@ export default function Input({
       <div className="flow-actualInput">
         {(input.type == 'text' || input.type == 'number') ?
           <div className="flow-text">
-            <input ref={el => inputEl = el} type={input.type} value={state.value} onChange={e => updateValue(e.target.value)} />
+            <input
+              ref={el => inputEl = el}
+              type={input.type}
+              value={value}
+              onChange={e => setValue(e.target.value)}
+            />
           </div>
           : input.type == 'switch' ?
             <div className="flow-switch">
               <div
-                onClick={() => updateValue(!state.value)}
-                className={`flow-actualSwitch ${state.value ? 'flow-true' : 'flow-false'}`}
+                onClick={() => setValue(!value)}
+                className={`flow-actualSwitch ${value ? 'flow-true' : 'flow-false'}`}
               ><div className="flow-inside"><Check /></div></div>
             </div>
             : input.type == 'dropdown' ?
               <div className="flow-dropdown">
-                <div className="flow-select" onClick={() => setState({ dropDownopen: !state.dropDownopen })}>
+                <div className="flow-select" onClick={() => setState(v => ({ ...v, dropDownopen: !state.dropDownopen }))}>
                   <div className="flow-optTitle">
                     {state.dropDownSelected == -1 || !input.options || input.options.length == 0
                       ? '...'
@@ -139,11 +131,12 @@ export default function Input({
                       key={optionID}
                       className="flow-option"
                       onClick={() => {
-                        updateValue(option.value)
-                        setState({
+                        setValue(option.value)
+                        setState(v => ({
+                          ...v,
                           dropDownSelected: optionID,
                           dropDownopen: false,
-                        })
+                        }))
                       }}
                     >
                       <div className="flow-optTitle">{option.title}</div>

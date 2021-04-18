@@ -1,22 +1,24 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Input from './input'
 import { Delete, Add, DropDown, DropUp, Alert } from './icons'
 import ToolTip from './tooltip'
 
-export default function Block({ Tree, Logic, data, graphInstanceForceUpdate, graphParrentInstance }) {
+export default function Block({ Tree, Logic, data, graphInstanceForceUpdate, graphParrentInstanceForceUpdate }) {
   let [state, setState] = useState({
     hover: false,
     showAddOptions: false,
-    showAdvanced: false,
   });
+
+  const [showAdvanced, setShowAdvanced] = useState(false)
 
   function remove() {
     Tree.removeComponent(data.path)
   }
   function realAdd(toAdd) {
-    setState({
+    setState(v => ({
+      ...v,
       showAddOptions: false,
-    })
+    }))
 
     if (!toAdd) {
       return
@@ -30,29 +32,50 @@ export default function Block({ Tree, Logic, data, graphInstanceForceUpdate, gra
       return
     }
 
-    setState({
+    setState(v => ({
+      ...v,
       showAddOptions: true,
-    })
+    }))
   }
+
+  useEffect(() => {
+    if (graphParrentInstanceForceUpdate) {
+      graphParrentInstanceForceUpdate()
+    } else if (graphInstanceForceUpdate) {
+      graphInstanceForceUpdate()
+    }
+  }, [showAdvanced])
 
   if (!data) {
     return ''
   }
   const comp = data.component
-  const inputs = comp.inputs
-  const advancedInputs = comp.advancedInputs
+  let { inputs, advancedInputs } = comp
+
+  if (comp.getInputs) {
+    const args = Tree.itemToExport(data)
+    let res = comp.getInputs(args)
+    if (Array.isArray(res)) {
+      inputs = [];
+      advancedInputs = [];
+      res.map(component => {
+        if (component.advanced) advancedInputs.push(component)
+        else inputs.push(component)
+      })
+    }
+  }
 
   return (
     <div
       className={`flow-fullBlock flow-hover${state.hover && !state.showAddOptions ? 'True' : 'False'}`}
-      onMouseOver={() => {
+      onMouseEnter={() => {
         if (!state.hover) {
-          setState({ hover: true })
+          setState(v => ({ ...v, hover: true }))
         }
       }}
-      onMouseOut={() => {
+      onMouseLeave={() => {
         if (state.hover) {
-          setState({ hover: false })
+          setState(v => ({ ...v, hover: false }))
         }
       }}
     >
@@ -76,7 +99,7 @@ export default function Block({ Tree, Logic, data, graphInstanceForceUpdate, gra
                   input={input}
                   initalVal={inputData ? inputData.value : undefined}
                   onChange={inputData =>
-                    Tree.updateInputValue(data.path, inputData, inputID, false)
+                    Tree.updateInputValue(data.path, inputData, input.name)
                   }
                 />
               )
@@ -85,36 +108,28 @@ export default function Block({ Tree, Logic, data, graphInstanceForceUpdate, gra
           {advancedInputs.length > 0 ?
             (() => {
               const hasErrors = advancedInputs.filter(el => (data.inputData[el.name] && el.validation ? el.validation(undefined, data.inputData[el.name].value) : true) !== true).length > 0
-              const showHasErrors = hasErrors && !state.showAdvanced
+              const showHasErrors = hasErrors && !showAdvanced
               return (
                 <div className="flow-showAdvanced">
                   <div
                     className={`flow-button error${showHasErrors ? 'True' : 'False'}`}
-                    onClick={() => {
-                      setState({ showAdvanced: !state.showAdvanced }, () => {
-                        if (graphParrentInstance) {
-                          graphParrentInstance.forceUpdate()
-                        } else if (graphInstanceForceUpdate) {
-                          graphInstanceForceUpdate()
-                        }
-                      })
-                    }}
-                  >{showHasErrors ? <Alert /> : ''}Advanced {state.showAdvanced ? <DropUp /> : <DropDown />}</div>
+                    onClick={() => setShowAdvanced(!showAdvanced)}
+                  >{showHasErrors ? <Alert /> : ''}Advanced {showAdvanced ? <DropUp /> : <DropDown />}</div>
                 </div>
               )
             })()
             : ''}
         </div>
-        <div className={`flow-inputs flow-advancedInputs flow-show${state.showAdvanced ? 'True' : 'False'}`}>
+        <div className={`flow-inputs flow-advancedInputs flow-show${showAdvanced ? 'True' : 'False'}`}>
           {advancedInputs.map((input, inputID) => {
             const inputData = data.inputData[input.name]
             return (
               <Input
-                hiddenDropdown={!state.showAdvanced}
+                hiddenDropdown={!showAdvanced}
                 key={inputID}
                 input={input}
                 initalVal={inputData ? inputData.value : undefined}
-                onChange={inputData => Tree.updateInputValue(data.path, inputData, inputID, true)}
+                onChange={inputData => Tree.updateInputValue(data.path, inputData, input.name)}
               />
             )
           })}
@@ -132,7 +147,7 @@ export default function Block({ Tree, Logic, data, graphInstanceForceUpdate, gra
                 onClick={() => realAdd({ componentName })}
                 className="flow-option"
                 key={key}
-              >{props ? Logic.title(componentName) : componentName}</div>
+              >{Logic ? Logic.title(componentName) : componentName}</div>
             )}
           </div>
         </div>
