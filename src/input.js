@@ -38,7 +38,11 @@ export default function Input({
     if (onChange && value !== undefined) {
       onChange({
         error,
-        value,
+        value: input.type == 'number'
+          ? !value
+            ? 0
+            : Number(value)
+          : value,
       })
     }
   }, [value, error])
