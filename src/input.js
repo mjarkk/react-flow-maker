@@ -39,9 +39,7 @@ export default function Input({
       onChange({
         error,
         value: input.type == 'number'
-          ? !value
-            ? 0
-            : Number(value)
+          ? typeof value === 'number' ? value : Number(value)
           : value,
       })
     }
@@ -112,9 +110,14 @@ export default function Input({
           <div className="flow-text">
             <input
               ref={el => inputEl = el}
-              type={input.type}
               value={value}
-              onChange={e => setValue(e.target.value)}
+              onChange={e => {
+                if (input.type == 'number') {
+                  setValue([...e.target.value].filter((c, idx) => /[0-9.]/.test(c) || (idx == 0 && c == '-')).join(''))
+                } else {
+                  setValue(e.target.value)
+                }
+              }}
             />
           </div>
           : (value !== undefined && input.type == 'switch') ?
