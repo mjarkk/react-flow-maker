@@ -16,13 +16,28 @@ export default function Input({
   initalVal,
 }) {
   const [internalRefID] = useState(new RefID)
-  const [state, setState] = useState({
-    dropDownSelected: -1,
-    dropDownopen: false,
-  })
+  const [state, setState] = useState({ dropDownopen: false })
   const [isAfterInit, setIsAfterInit] = useState(false)
   const [value, setValue] = useState(undefined)
   const [error, setError] = useState('')
+
+  function updateDefaultVal() {
+    if ((input && !isAfterInit) || internalRefID.val != refID) {
+      internalRefID.val = refID
+
+      let defaultInput = initalVal !== undefined ? initalVal : input.default
+      if (defaultInput === undefined) {
+        if (input.type == 'text' || input.type == 'number') {
+          defaultInput = ''
+        } else if (input.type == 'switch') {
+          defaultInput = false;
+        }
+      }
+      setValue(defaultInput)
+
+      setIsAfterInit(true)
+    }
+  }
 
   useEffect(() => {
     if (typeof input.validation == 'function' && value !== undefined) {
@@ -35,7 +50,7 @@ export default function Input({
   }, [value])
 
   useEffect(() => {
-    if (onChange && value !== undefined) {
+    if (onChange && (value !== undefined || input.type == 'dropdown')) {
       onChange({
         error,
         value: input.type == 'number'
@@ -45,38 +60,14 @@ export default function Input({
     }
   }, [value, error])
 
-  function updateDefaultVal() {
-    if ((input && !isAfterInit) || internalRefID.val != refID) {
-      internalRefID.val = refID
-
-      let defaultInput = typeof initalVal != 'undefined' ? initalVal : input.default
-      if (defaultInput === undefined) {
-        if (input.type == 'text' || input.type == 'number') {
-          defaultInput = ''
-        } else if (input.type == 'switch') {
-          defaultInput = false;
-        }
-      }
-      setValue(defaultInput)
-
-      if (input.type == 'dropdown' && state.dropDownSelected == -1) {
-        let dropDownSelected = 0
-        input.options.map((option, id) => {
-          if (option.value == defaultInput) {
-            dropDownSelected = id
-          }
-        })
-        setState(v => ({
-          ...v,
-          dropDownSelected
-        }))
-      }
-
-      setIsAfterInit(true)
-    }
-  }
-
   useEffect(() => updateDefaultVal(), [])
+
+  useEffect(() => {
+    if (input.type == 'dropdown' && value !== undefined) {
+      const newValue = input?.options?.find(option => option.value === value)?.value || (input?.options && input?.options[0])?.value || undefined;
+      if (newValue !== value) setValue(newValue);
+    }
+  }, [input])
 
   useEffect(() => {
     updateDefaultVal()
@@ -131,9 +122,9 @@ export default function Input({
               <div className="flow-dropdown">
                 <div className="flow-select" onClick={() => setState(v => ({ ...v, dropDownopen: !state.dropDownopen }))}>
                   <div className="flow-optTitle">
-                    {state.dropDownSelected == -1 || !input.options || input.options.length == 0
+                    {!input.options?.length
                       ? '...'
-                      : input.options[state.dropDownSelected].title
+                      : input.options.find(input => input.value === value)?.title || '...'
                     }
                   </div>
                   <div className="flow-icon">
@@ -149,7 +140,6 @@ export default function Input({
                         setValue(option.value)
                         setState(v => ({
                           ...v,
-                          dropDownSelected: optionID,
                           dropDownopen: false,
                         }))
                       }}

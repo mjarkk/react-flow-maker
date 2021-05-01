@@ -47,8 +47,26 @@ const appLogic = {
             tooltip: 'Add a ssl certificate',
             type: 'switch',
             default: true,
+          },
+        ] : [];
+
+        const isSslInputs = info.inputs.https && info.inputs.sslCert ? [
+          {
+            name: 'hasOwnServer',
+            title: 'Do you have your own serve',
+            type: 'switch',
+            default: false,
+          }, {
+            name: 'sslCertifier',
+            title: 'Get ssl certificate from',
+            type: 'dropdown',
+            options: [
+              { title: 'Lets Encrypt', value: 'lets-encrypt', tooltip: 'Very easy' },
+              ...(info.inputs.hasOwnServer ? [{ title: 'Create one yourself', value: 'self', tooltip: 'Much complicated' }] : []),
+            ]
           }
         ] : [];
+
         return [
           {
             name: 'server',
@@ -63,6 +81,7 @@ const appLogic = {
             default: true,
           },
           ...isHttpsInputs,
+          ...isSslInputs,
           {
             name: 'port',
             title: 'Web server port',
