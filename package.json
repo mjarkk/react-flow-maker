@@ -16,7 +16,7 @@
     "url": "https://github.com/mjarkk/react-flow-maker",
     "type": "git"
   },
-  "version": "1.1.5",
+  "version": "1.1.6",
   "license": "MIT",
   "main": "dist/flowmaker.cjs.js",
   "browser": "dist/flowmaker.umd.js",
@@ -25,8 +25,7 @@
   "scripts": {
     "build": "rollup -c --environment BUILD:production",
     "watch": "rollup -c -w",
-    "example:watch": "parcel serve example/index.html",
-    "publish": "npm run build && npm publish"
+    "example:watch": "parcel serve example/index.html"
   },
   "devDependencies": {
     "@babel/core": "^7.14.0",
